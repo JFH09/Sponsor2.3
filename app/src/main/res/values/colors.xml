@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#AD30436C</color>
+    <color name="colorPrimaryDark">#FF469DCA</color>
+    <color name="colorAccent">#30436C</color>
+    <color name="colorRellenarTxtBox">#8DBABABA</color>
+    <color name="colorbotones">#AD30436C</color>
+    <color name="colorfondo">#FFFFFF</color>
+    <color name="colorTexto">#8DBABABA</color>
+</resources>
