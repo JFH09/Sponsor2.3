@@ -11,6 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".MostrarActivity"></activity>
+        <activity android:name=".eligetumateriaActivity" />
+        <activity android:name=".codigoregistroActivity" />
+        <activity android:name=".SaludoActivity" />
         <activity android:name=".BienvenidoActivity" />
         <activity android:name=".Registro_Activity" />
         <activity android:name=".MainActivity">

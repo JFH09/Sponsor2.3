@@ -4,6 +4,6 @@
     <solid android:color="@color/colorfondo"></solid>
     <stroke
             android:width="2dp"
-            android:color="@color/colorPrimaryDark"/>
+            android:color="@color/colorPrimary"/>
 
 </shape>

@@ -7,4 +7,11 @@
     <color name="colorbotones">#AD30436C</color>
     <color name="colorfondo">#FFFFFF</color>
     <color name="colorTexto">#8DBABABA</color>
+    <color name="colorMatematicas">#FF9100</color>
+    <color name="colorBiologia">#A9D18E</color>
+    <color name="colorSociales">#FFD966</color>
+    <color name="colorEspañol">#2E75B6</color>
+    <color name="colorFisica">#953EA6</color>
+    <color name="colorEd_Fisica">#30B4B1</color>
+    <color name="colorIngles">#5B9BD5</color>
 </resources>

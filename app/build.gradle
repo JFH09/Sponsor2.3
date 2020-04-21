@@ -23,6 +23,9 @@ android {
 
 }
 
+/*configurations.all{
+    resolutionStrategy.force'com.android.support-annotations:23.1.0'
+}*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
