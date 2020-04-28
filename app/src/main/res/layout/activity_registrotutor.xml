@@ -42,24 +42,27 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/sponsoregistro"
+        android:src="@drawable/registrotutor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="443dp"
+        android:background="@drawable/botonredondo_passw"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        android:background="@drawable/botonredondo_passw">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/botonredondo_passw">
+            android:background="@drawable/botonredondo_passw"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/TxtEmail"
@@ -170,8 +173,9 @@
                 android:hint="Fecha De Nacimiento"
                 android:textSize="20dp" />
 
+
             <EditText
-                android:id="@+id/TxtCodigoRegistro"
+                android:id="@+id/TxtIdentificacion"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -179,16 +183,34 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:background="@drawable/redondocodregistro"
+                android:background="@drawable/redondoemail"
                 android:ems="30"
                 android:gravity="center"
-                android:hint="Codigo De Registro"
+                android:hint=" Identificacion"
                 android:inputType="text"
-                android:textColor="#000004"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.666"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TxtNumeroCelular" />
+                app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
+
+            <EditText
+                android:id="@+id/TxtUniversidad"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/redondoemail"
+                android:ems="30"
+                android:gravity="center"
+                android:hint=" Universidad a la que Pertenece"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
 
 
             <Button

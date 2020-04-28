@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText TextPassword;
     private Button btnRegistrar;
     private Button btnEntrar;
+    private Button btnTutor;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference BDUsuario;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnRegistrar = (Button) findViewById(R.id.botonRegistrar);
         btnEntrar = (Button) findViewById(R.id.botonEntrar);
+        btnTutor = (Button) findViewById(R.id.botonTutor);
         progressDialog = new ProgressDialog(this);
 
 
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnRegistrar.setOnClickListener(this);
         btnEntrar.setOnClickListener(this);
+        btnTutor.setOnClickListener(this);
     }
 
     public void IngresoUsuario(){
@@ -90,62 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             Intent intent1= new Intent(getApplication(),eligetumateriaActivity.class);
                             startActivity(intent1);
-    /*
-                            BDUsuario.child("Informacion").addValueEventListener(new ValueEventListener() {
 
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                for (final DataSnapshot snapshot : dataSnapshot.getChildren()){
-
-                                        BDUsuario.child("Informacion").child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                Usuarios usuarios = snapshot.getValue(Usuarios.class);
-                                                String ide = usuarios.getEmail();
-                                                Toast.makeText(MainActivity.this, "AQUI ENTRO!! "+ide, Toast.LENGTH_LONG).show();
-                                                Log.e("email: ",ide);
-
-
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-                                    */
-
-/*
-                                        if (dataSnapshot.exists()) {
-                                            String codigoRegistro = dataSnapshot.child("codigoRegistro").getValue().toString();
-                                            Toast.makeText(MainActivity.this, "AQUI ENTRO!!!!!!!!! ", Toast.LENGTH_LONG).show();
-                                            if (codigoRegistro == "No Registrado") {
-
-                                                Intent intencion = new Intent(getApplication(), SaludoActivity.class);
-                                                startActivity(intencion);
-
-                                                Toast.makeText(MainActivity.this, "No se Encuentra Codigo de Registro ", Toast.LENGTH_LONG).show();
-                                            } else {
-                                                Intent intencion2 = new Intent(getApplication(), eligetumateriaActivity.class);
-                                                startActivity(intencion2);
-                                                Toast.makeText(MainActivity.this, "Se ha Iniciado Sesión el usuario con el email: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Toast.makeText(MainActivity.this,"No se pudo realizar la accion... ",Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                                    */
                         }else{
 
-                            Toast.makeText(MainActivity.this,"No se pudo Iniciar Sesion... ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"No se pudo Iniciar Sesion ",Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }
@@ -155,8 +106,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void AccionRegistrar(){
-        Intent intencion2 = new Intent(getApplication(),Registro_Activity.class);
+        Intent intencion2 = new Intent(getApplication(),SaludoActivity.class);
         startActivity(intencion2);
+    }
+
+    public  void AccionTutor(){
+        Intent intentoTutor = new Intent(getApplication(),SaludotutorActivity.class);
+        startActivity(intentoTutor);
     }
 
     public void onClick(View view) {
@@ -167,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.botonRegistrar:
                 AccionRegistrar();
+                break;
+
+            case R.id.botonTutor:
+                AccionTutor();
                 break;
         }
 

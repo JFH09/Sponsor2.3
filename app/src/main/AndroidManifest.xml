@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MostrarActivity"></activity>
+        <activity android:name=".SaludotutorActivity"></activity>
+        <activity android:name=".RegistrotutorActivity" />
+        <activity android:name=".MatematicasActivity" />
+        <activity android:name=".MostrarActivity" />
         <activity android:name=".eligetumateriaActivity" />
         <activity android:name=".codigoregistroActivity" />
         <activity android:name=".SaludoActivity" />
