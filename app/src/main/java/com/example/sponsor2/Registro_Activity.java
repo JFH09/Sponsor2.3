@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -165,7 +166,7 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
                     String id = BDUsuarios.push().getKey();
                     Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                     intencionId.putExtra("identificacion1",id);
-                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro);
+                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,"Null");
                     BDUsuarios.child("Informacion").child(id).setValue(usuario);
                     startActivity(intencionId);
                 }else{

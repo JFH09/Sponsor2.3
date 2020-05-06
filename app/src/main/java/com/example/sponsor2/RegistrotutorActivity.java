@@ -2,40 +2,46 @@ package com.example.sponsor2;
 
 
 import android.app.DatePickerDialog;
+import android.graphics.Bitmap;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RegistrotutorActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegistrotutorActivity<ImagenView> extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "RegistrotutorActivity";
     private  EditText TextEmail;
@@ -46,19 +52,39 @@ public class RegistrotutorActivity extends AppCompatActivity implements View.OnC
     private EditText TextApellido;
     private Button btnRegistrar;
     private  Button btnAtras;
+    private Button btnSubir;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference BDUsuarios;
+    private DatabaseReference BDUsuarios,BDFotos;
+    private StorageReference ReferenciaStorage;
     private TextView BtnTextFecha;
     private DatePickerDialog.OnDateSetListener  DarFecha;
+    private static final int  ValorRetorno = 1;
+    private static final int GALLERY_INTENT=1;
+    private StorageReference ReferenciaStorageArchivo;
+    private Button btnAdjuntarArchivo;
+    private ProgressDialog RProgressDialog;
+    private ImagenView imagenView;
+    private String downloadUrl;
+    private final int PICK_PHOTO = 1;
+    private  ImagenView imagenProducto;
+    public String Imagen3;
+    public String N;
+    public Uri F;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrotutor);
         BDUsuarios= FirebaseDatabase.getInstance().getReference("Usuarios");
-
+        BDFotos = FirebaseDatabase.getInstance().getReference().child("Documentos");
         firebaseAuth = FirebaseAuth.getInstance();
+        ReferenciaStorage = FirebaseStorage.getInstance().getReference();
+        ReferenciaStorageArchivo = FirebaseStorage.getInstance().getReference();
         TextEmail = (EditText) findViewById(R.id.TxtEmail);
         TextPassword = (EditText) findViewById(R.id.TxtPassword);
         TextNombre = (EditText) findViewById(R.id.TxtNombre);
@@ -66,17 +92,25 @@ public class RegistrotutorActivity extends AppCompatActivity implements View.OnC
         TextApellido = (EditText) findViewById(R.id.TxtApellido);
         TextCodigoRegistro = (EditText) findViewById(R.id.TxtCodigoRegistro);
 
+
         BtnTextFecha = (TextView) findViewById(R.id.TxtVFecha);
 
-
+       // btnSubir= (Button) findViewById(R.id.botonSubir);
         btnRegistrar = (Button) findViewById(R.id.botonRegistrar);
         progressDialog = new ProgressDialog(this);
         btnAtras = (Button) findViewById(R.id.botonAtras);
-
+        btnAdjuntarArchivo = (Button) findViewById(R.id.botonArchivo);
 
 
         btnRegistrar.setOnClickListener(this);
         btnAtras.setOnClickListener(this);
+
+
+
+
+        RProgressDialog = new ProgressDialog(this);
+
+
 
         BtnTextFecha.setOnClickListener(new  View.OnClickListener(){
 
@@ -105,18 +139,168 @@ public class RegistrotutorActivity extends AppCompatActivity implements View.OnC
         };
 
 
+
+
+        btnAdjuntarArchivo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentArchivos2 = new Intent(Intent.ACTION_GET_CONTENT);
+                intentArchivos2.setType("*/*");
+                startActivityForResult(Intent.createChooser(intentArchivos2,"Seleccione una imagen"),PICK_PHOTO);
+
+
+            }
+        });
+
+
     }
 
 
-    private void registrarUsuario(){
+
+
+
+    
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            String nombreCarpeta = TextEmail.toString().trim();
+            N=nombreCarpeta.toString().trim();
+            if(requestCode == PICK_PHOTO && resultCode == RESULT_OK && data != null && data.getData() !=null){
+
+                Uri filePath = data.getData();
+                F=filePath;
+
+                try {
+                    Bitmap bitmapImagen = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                    Toast.makeText(RegistrotutorActivity.this, "Uri:" + filePath, Toast.LENGTH_LONG).show();
+                    Carga(N, F);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+     public void Carga(String N, Uri F){
+
+        final String nombreCarpeta2 = TextEmail.toString().trim();
+        final Uri filePath = F;
+
+         if(filePath!=null){
+             //.getCurrentUser().getUid()
+             final StorageReference fotoRef = ReferenciaStorage.child("Fotos").child(nombreCarpeta2).child(filePath.getLastPathSegment());
+             fotoRef.putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                 @Override
+                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                     if(!task.isSuccessful()){
+                         throw new Exception();
+                     }
+
+                     return fotoRef.getDownloadUrl();
+
+                 }
+
+
+
+             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+
+
+                 @Override
+                 public void onComplete(@NonNull Task<Uri> task) {
+                     if(task.isSuccessful()){
+                         Uri downloadLink = task.getResult();
+                         //Map<String, Object> producto = new HashMap<>();
+                         Imagen3 = downloadLink.toString();
+
+                         //producto.put("nombre:", nombreCarpeta2);
+                         //producto.put("imagen", downloadLink.toString());
+
+                     }
+
+                 }
+             });
+
+
+
+         }
+
+
+     }
+
+    public void cargarProductoFirebase(final String nombreCarpeta, Uri filePath) {
+
+        if(filePath!=null){
+                                                                            //.getCurrentUser().getUid()
+            final StorageReference fotoRef = ReferenciaStorage.child("Fotos").child(nombreCarpeta).child(filePath.getLastPathSegment());
+            fotoRef.putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw new Exception();
+                    }
+
+                    return fotoRef.getDownloadUrl();
+                }
+
+
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri downloadLink = task.getResult();
+                        Map<String, Object> producto = new HashMap<>();
+                        Imagen3 = downloadLink.toString();
+                       // registrarUsuario(Imagen3);
+                        producto.put("nombre:", nombreCarpeta);
+                        producto.put("imagen", downloadLink.toString());
+                        BDUsuarios.child("Usuarios").child(nombreCarpeta).child("productos").push().updateChildren(producto).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                //firebaseAuth.getCurrentUser().getUid()
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                                progressDialog.dismiss();
+
+                                Toast.makeText(RegistrotutorActivity.this, "Se cargo el producto correctamente.", Toast.LENGTH_SHORT).show();
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(RegistrotutorActivity.this, "Error al cargar el producto" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            });
+
+
+
+        }
+
+
+    }
+   /////////////////////////////////////////////////////////////////////////////////////////////////
+    private void registrarUsuario( String Imagen3){
         String email = TextEmail.getText().toString().trim();
-        String password  = TextPassword.getText().toString().trim();
+        final String password  = TextPassword.getText().toString().trim();
         String nombre = TextNombre.getText().toString().trim();
         String numero = TextNumero.getText().toString().trim();
+        String Imagen2 = Imagen3;
         String codigoRegistro = "NoActivado";
         String fecha = BtnTextFecha.getText().toString().trim();
         String apellido = TextApellido.getText().toString().trim();
+        Uri filePath = F;
+        String nombreCarpeta = N;
         boolean verificacion= false;
+        final String nombreCarpeta2 = email+ password;
+
+
+        //////
 
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this,"Se debe ingresar un email",Toast.LENGTH_LONG).show();
@@ -164,11 +348,21 @@ public class RegistrotutorActivity extends AppCompatActivity implements View.OnC
             Toast.makeText(this,"Bienvenido "+ nombre,Toast.LENGTH_LONG).show();
             if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) ){
                 String id = BDUsuarios.push().getKey();
+
                 Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                 intencionId.putExtra("identificacion1",id);
-                Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro);
+                Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,Imagen2);
                 BDUsuarios.child("Informacion").child(id).setValue(usuario);
                 startActivity(intencionId);
+
+
+
+
+
+
+
+
+
             }else{
                 Toast.makeText(this,"Falta algun Dato / Error ", Toast.LENGTH_LONG).show();
             }
@@ -227,12 +421,13 @@ public class RegistrotutorActivity extends AppCompatActivity implements View.OnC
 
         switch(view.getId()){
             case R.id.botonRegistrar:
-                registrarUsuario();
+                registrarUsuario(Imagen3);
                 break;
 
             case R.id.botonAtras:
                 Devolver();
                 break;
+
         }
 
 
