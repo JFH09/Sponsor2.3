@@ -170,6 +170,7 @@
                 android:layout_marginRight="32dp"
                 android:background="@drawable/redondoemail"
                 android:gravity="center"
+
                 android:hint="Fecha De Nacimiento"
                 android:textSize="20dp" />
 
@@ -187,7 +188,7 @@
                 android:ems="30"
                 android:gravity="center"
                 android:hint=" Identificacion"
-                android:inputType="text"
+                android:inputType="number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -213,42 +214,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
 
             <Button
-                android:id="@+id/botonSubir"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/redondoemail"
-                android:text="Subir Archivo"
-                android:textColor="#959595"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.878" />
-
-            <ImageView
-                android:id="@+id/VimagenProducto"
-                android:layout_width="157dp"
-                android:layout_height="103dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:layout_marginEnd="361dp"
-                android:layout_marginRight="361dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <Button
                 android:id="@+id/botonArchivo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -257,16 +222,74 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/redondoemail"
-                android:text="Adjuntar Archivo"
-                android:textColor="#959595"
+                android:background="@drawable/botontutor"
+                android:text="Adjuntar Registro Academico"
+                android:textColor="@color/colorfondo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TxtNombre" />
+
+            <Button
+                android:id="@+id/botonArchivoDocIdentif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/botontutor"
+                android:text="Adjuntar Documento de Identificacion"
+                android:textColor="@color/colorfondo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/botonArchivo"
+                app:layout_constraintVertical_bias="0.878" />
+
+            <Button
+                android:id="@+id/botonArchivoActaGrado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/botontutor"
+                android:text="Adjuntar Acta De Grado"
+                android:textColor="@color/colorfondo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/botonArchivoDocIdentif"
+                app:layout_constraintVertical_bias="0.878" />
+
+            <Button
+                android:id="@+id/botonArchivoCarnetU"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/botontutor"
+                android:text="Adjuntar Carnet Universitario"
+                android:textColor="@color/colorfondo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/botonArchivoActaGrado"
                 app:layout_constraintVertical_bias="0.878" />
 
 
@@ -276,7 +299,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginBottom="32dp"
@@ -288,13 +310,15 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.878" />
+                app:layout_constraintTop_toBottomOf="@+id/botonArchivoCarneU"
+                app:layout_constraintVertical_bias="0.294" />
 
 
         </LinearLayout>
 
 
     </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

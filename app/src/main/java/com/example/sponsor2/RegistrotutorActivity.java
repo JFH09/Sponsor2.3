@@ -50,6 +50,8 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
     private EditText TextNumero;
     private EditText TextCodigoRegistro;
     private EditText TextApellido;
+    private EditText TextIdentificacion;
+    private EditText TextUniversidad;
     private Button btnRegistrar;
     private  Button btnAtras;
     private Button btnSubir;
@@ -63,6 +65,7 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
     private static final int GALLERY_INTENT=1;
     private StorageReference ReferenciaStorageArchivo;
     private Button btnAdjuntarArchivo;
+    private Button btnAdjuntarCarnet;
     private ProgressDialog RProgressDialog;
     private ImagenView imagenView;
     private String downloadUrl;
@@ -71,6 +74,8 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
     public String Imagen3;
     public String N;
     public Uri F;
+    private String TomarFecha="NO HAY";
+    private Boolean AdjuntarArchivo=false,AdjuntarCarnet=false;
 
 
 
@@ -85,12 +90,15 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         firebaseAuth = FirebaseAuth.getInstance();
         ReferenciaStorage = FirebaseStorage.getInstance().getReference();
         ReferenciaStorageArchivo = FirebaseStorage.getInstance().getReference();
+
         TextEmail = (EditText) findViewById(R.id.TxtEmail);
         TextPassword = (EditText) findViewById(R.id.TxtPassword);
         TextNombre = (EditText) findViewById(R.id.TxtNombre);
         TextNumero = (EditText) findViewById(R.id.TxtNumeroCelular);
         TextApellido = (EditText) findViewById(R.id.TxtApellido);
         TextCodigoRegistro = (EditText) findViewById(R.id.TxtCodigoRegistro);
+        TextIdentificacion = (EditText) findViewById(R.id.TxtIdentificacion);
+        TextUniversidad = (EditText) findViewById(R.id.TxtUniversidad);
 
 
         BtnTextFecha = (TextView) findViewById(R.id.TxtVFecha);
@@ -99,11 +107,16 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         btnRegistrar = (Button) findViewById(R.id.botonRegistrar);
         progressDialog = new ProgressDialog(this);
         btnAtras = (Button) findViewById(R.id.botonAtras);
-        btnAdjuntarArchivo = (Button) findViewById(R.id.botonArchivo);
 
+
+        btnAdjuntarArchivo = (Button) findViewById(R.id.botonArchivo);
+        btnAdjuntarCarnet = (Button) findViewById(R.id.botonArchivoCarnetU);
 
         btnRegistrar.setOnClickListener(this);
         btnAtras.setOnClickListener(this);
+        btnAdjuntarArchivo.setOnClickListener(this);
+        btnAdjuntarCarnet.setOnClickListener(this);
+
 
 
 
@@ -135,27 +148,23 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 BtnTextFecha.setText( i + "/" + i1 +"/"+ i2);
+                TomarFecha = (i + "/" + i1 +"/"+ i2);
+
             }
         };
 
 
 
 
-        btnAdjuntarArchivo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intentArchivos2 = new Intent(Intent.ACTION_GET_CONTENT);
-                intentArchivos2.setType("*/*");
-                startActivityForResult(Intent.createChooser(intentArchivos2,"Seleccione una imagen"),PICK_PHOTO);
-
-
-            }
-        });
-
-
     }
 
+        public void SeleccionarArchivo(){
+
+            Intent intentArchivos2 = new Intent();
+            intentArchivos2.setType("*/*");
+            intentArchivos2.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intentArchivos2,"Seleccione una Documento"),PICK_PHOTO);
+        }
 
 
 
@@ -164,6 +173,8 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         @Override
         protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
+            RProgressDialog.setMessage("Adjuntando Documento");
+            RProgressDialog.show();
 
             String nombreCarpeta = TextEmail.toString().trim();
             N=nombreCarpeta.toString().trim();
@@ -182,16 +193,20 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
                 }
             }
 
+            RProgressDialog.dismiss();
+
         }
 
      public void Carga(String N, Uri F){
 
-        final String nombreCarpeta2 = TextEmail.toString().trim();
-        final Uri filePath = F;
 
+
+        final String nombreCarpeta2 = TextEmail.getText().toString().trim();
+        final Uri filePath = F;
+        String nombreArchivo=filePath.getLastPathSegment();
          if(filePath!=null){
              //.getCurrentUser().getUid()
-             final StorageReference fotoRef = ReferenciaStorage.child("Fotos").child(nombreCarpeta2).child(filePath.getLastPathSegment());
+             final StorageReference fotoRef = ReferenciaStorage.child("Documentos").child(nombreCarpeta2).child(filePath.getLastPathSegment());
              fotoRef.putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                  @Override
                  public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -210,6 +225,7 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
 
                  @Override
                  public void onComplete(@NonNull Task<Uri> task) {
+
                      if(task.isSuccessful()){
                          Uri downloadLink = task.getResult();
                          //Map<String, Object> producto = new HashMap<>();
@@ -227,9 +243,25 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
 
          }
 
+            if(AdjuntarArchivo==true){
+                btnAdjuntarArchivo.setText(nombreArchivo);
+                btnAdjuntarArchivo.setTextColor(Color.WHITE);
+                btnAdjuntarArchivo.setBackgroundColor(R.id.botonMatematicas);
+
+            }
+            if (AdjuntarCarnet==true){
+                btnAdjuntarCarnet.setText(nombreArchivo);
+                btnAdjuntarCarnet.setTextColor(Color.WHITE);
+                btnAdjuntarCarnet.setBackgroundColor(R.id.botonMatematicas);
+            }
+
+            AdjuntarArchivo = false;
+            AdjuntarCarnet = false;
+
+
 
      }
-
+/*
     public void cargarProductoFirebase(final String nombreCarpeta, Uri filePath) {
 
         if(filePath!=null){
@@ -283,20 +315,23 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         }
 
 
-    }
+    }*/
    /////////////////////////////////////////////////////////////////////////////////////////////////
     private void registrarUsuario( String Imagen3){
         String email = TextEmail.getText().toString().trim();
         final String password  = TextPassword.getText().toString().trim();
         String nombre = TextNombre.getText().toString().trim();
         String numero = TextNumero.getText().toString().trim();
-        String Imagen2 = Imagen3;
+        String DocHistoriaAcademica = Imagen3;
         String codigoRegistro = "NoActivado";
         String fecha = BtnTextFecha.getText().toString().trim();
         String apellido = TextApellido.getText().toString().trim();
+        String identificacion = TextIdentificacion.getText().toString().trim();
+        String universidad = TextUniversidad.getText().toString().trim();
         Uri filePath = F;
         String nombreCarpeta = N;
         boolean verificacion= false;
+        boolean verifFecha = false;
         final String nombreCarpeta2 = email+ password;
 
 
@@ -335,8 +370,28 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         }
 
         if(TextUtils.isEmpty(fecha)){
-            Toast.makeText(this, "Falta Digitar Fecha ",Toast.LENGTH_LONG).show();
+
+                Toast.makeText(this, "Falta Digitar Fecha ",Toast.LENGTH_LONG).show();
+                return;
         }
+
+
+
+        if(TextUtils.isEmpty(identificacion)){
+            Toast.makeText(this, "Falta Una Identificacion", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(DocHistoriaAcademica)){
+            Toast.makeText(this, "Falta Adjuntar un Documento ", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(universidad)){
+            Toast.makeText(this, "Falta Ingresar La universidad ",Toast.LENGTH_LONG).show();
+            return;
+        }
+
 
 
 
@@ -345,13 +400,15 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         }
 
         if(verificacion) {
-            Toast.makeText(this,"Bienvenido "+ nombre,Toast.LENGTH_LONG).show();
-            if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) ){
+
+            if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) || !TextUtils.isEmpty(identificacion) || !TextUtils.isEmpty(universidad)||!TextUtils.isEmpty(DocHistoriaAcademica) ){
+
+                Toast.makeText(this, "Bienvenido " + nombre,Toast.LENGTH_LONG ).show();
                 String id = BDUsuarios.push().getKey();
 
                 Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                 intencionId.putExtra("identificacion1",id);
-                Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,Imagen2);
+                Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,identificacion,universidad,DocHistoriaAcademica);
                 BDUsuarios.child("Informacion").child(id).setValue(usuario);
                 startActivity(intencionId);
 
@@ -416,6 +473,8 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         startActivity(intencionAtras);
     }
 
+
+
     @Override
     public void onClick(View view) {
 
@@ -426,6 +485,19 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
 
             case R.id.botonAtras:
                 Devolver();
+                break;
+
+            case R.id.botonArchivo:
+                AdjuntarArchivo = true;
+                SeleccionarArchivo();
+
+                break;
+
+            case R.id.botonArchivoCarnetU:
+                AdjuntarCarnet = true;
+                SeleccionarArchivo();
+
+
                 break;
 
         }

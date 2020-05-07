@@ -40,6 +40,8 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
     private EditText TextNumero;
     private EditText TextCodigoRegistro;
     private EditText TextApellido;
+    private EditText TextIdentificacion;
+    private EditText TextColegio;
     private Button btnRegistrar;
     private  Button btnAtras;
     private ProgressDialog progressDialog;
@@ -62,6 +64,8 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
             TextNumero = (EditText) findViewById(R.id.TxtNumeroCelular);
             TextApellido = (EditText) findViewById(R.id.TxtApellido);
             TextCodigoRegistro = (EditText) findViewById(R.id.TxtCodigoRegistro);
+            TextIdentificacion = (EditText) findViewById(R.id.TxtIdentificacion);
+            TextColegio = (EditText) findViewById(R.id.TxtColegio);
 
             BtnTextFecha = (TextView) findViewById(R.id.TxtVFecha);
 
@@ -110,6 +114,8 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
             String codigoRegistro = TextCodigoRegistro.getText().toString().trim();
             String fecha = BtnTextFecha.getText().toString().trim();
             String apellido = TextApellido.getText().toString().trim();
+            String identificacion = TextIdentificacion.getText().toString().trim();
+            String colegio = TextColegio.getText().toString().trim();
             boolean verificacion= false;
 
             if(TextUtils.isEmpty(email)){
@@ -137,8 +143,6 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
             }
 
 
-
-
             if(numero.length()<10||numero.length()>10){
                 Toast.makeText(this,"Dato No valido",Toast.LENGTH_LONG).show();
                 return;
@@ -149,11 +153,23 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
             }
 
 
+            if(TextUtils.isEmpty(numero)){
+                Toast.makeText(this,"Falta ingresar el numero ",Toast.LENGTH_LONG).show();
+                return;
+            }
+
             if(TextUtils.isEmpty(codigoRegistro)){
 
                 Toast.makeText(this,"Codigo De Registro No valido",Toast.LENGTH_LONG).show();
 
             }
+
+            if(TextUtils.isEmpty(colegio)){
+
+                Toast.makeText(this,"Codigo De Registro No valido",Toast.LENGTH_LONG).show();
+
+            }
+
 
 
             if(codigoRegistro.equals("estudiante")){
@@ -162,11 +178,11 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
 
             if(verificacion) {
                 Toast.makeText(this,"Bienvenido "+ nombre,Toast.LENGTH_LONG).show();
-                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) ){
+                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) || !TextUtils.isEmpty(colegio) ){
                     String id = BDUsuarios.push().getKey();
                     Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                     intencionId.putExtra("identificacion1",id);
-                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,"Null");
+                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,identificacion,colegio,"NULL");
                     BDUsuarios.child("Informacion").child(id).setValue(usuario);
                     startActivity(intencionId);
                 }else{
