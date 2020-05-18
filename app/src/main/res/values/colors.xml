@@ -15,4 +15,6 @@
     <color name="colorEd_Fisica">#30B4B1</color>
     <color name="colorIngles">#5B9BD5</color>
     <color name="colorTutor">#FF469DCA</color>
+    <color name="colorIconosMatematicas">#C65A05</color>
+    <color name="colorTransparent">@color/fui_transparent</color>
 </resources>

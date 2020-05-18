@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorfondo"
+    tools:context=".IniciarGoogleActivity">
+
+    <TextView
+        android:id="@+id/ShowU"
+        android:layout_width="244dp"
+        android:layout_height="202dp"
+        android:background="@color/colorfondo"
+        android:clickable="false"
+        android:textColor="#959595"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.168" />
+
+    <Button
+        android:id="@+id/botonContinuarInicio"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
+        android:background="@drawable/botonredondo_passw"
+        android:text="Continuar"
+        android:textColor="#959595"
+        app:layout_constraintBottom_toTopOf="@+id/Salirbtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ShowU" />
+
+    <Button
+        android:id="@+id/Salirbtn"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginRight="84dp"
+        android:layout_marginBottom="253dp"
+        android:background="@drawable/botonredondo"
+        android:text="Cancelar/ Cerrar Sesion"
+        android:textColor="@color/colorfondo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

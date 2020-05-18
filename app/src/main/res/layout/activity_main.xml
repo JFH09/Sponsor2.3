@@ -13,7 +13,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/redondoemail"
@@ -21,6 +21,7 @@
         android:gravity="center"
         android:hint=" EMAIL"
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/TxtPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/redondoemail"
@@ -40,6 +41,7 @@
         android:gravity="center"
         android:hint=" CONTRASEÑA"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/botonRegistrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TxtEmail" />
@@ -53,6 +55,7 @@
         android:layout_marginTop="88dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/TxtEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -77,6 +80,29 @@
         app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
 
     <Button
+        android:id="@+id/botonIniciarGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/botongoolge"
+        android:text="Acceder Con Google"
+        android:textColor="#959595"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonRegistrar"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+
+
+
+    <Button
         android:id="@+id/botonEntrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,14 +118,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TxtPassword" />
 
-
     <Button
         android:id="@+id/botonTutor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="200dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
@@ -109,8 +133,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonRegistrar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="29dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/botonIniciarGoogle"
+        app:layout_constraintEnd_toStartOf="@+id/botonIniciarGoogle"
+        app:layout_constraintHorizontal_bias="0.829"
+        app:layout_constraintStart_toEndOf="@+id/botonIniciarGoogle"
+        app:layout_constraintTop_toTopOf="@+id/botonIniciarGoogle"
+        app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

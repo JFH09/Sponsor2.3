@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/TxtNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/TxtMensaje"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/mensaje"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/botonEnviar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TxtNombre" />
+
+    <EditText
+        android:id="@+id/TxtNombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+
+        android:inputType="textMultiLine"
+
+        app:layout_constraintBottom_toTopOf="@+id/TxtMensaje"
+        app:layout_constraintEnd_toStartOf="@+id/botonEnviar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvMensajes"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/botonEnviar"
+        android:layout_width="45dp"
+        android:layout_height="88dp"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TxtNombre"
+        app:layout_constraintTop_toBottomOf="@+id/rvMensajes"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+</androidx.constraintlayout.widget.ConstraintLayout>

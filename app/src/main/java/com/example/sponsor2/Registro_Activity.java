@@ -1,5 +1,6 @@
 package com.example.sponsor2;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 
@@ -56,7 +57,6 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_);
             BDUsuarios= FirebaseDatabase.getInstance().getReference("Usuarios");
-
             firebaseAuth = FirebaseAuth.getInstance();
             TextEmail = (EditText) findViewById(R.id.TxtEmail);
             TextPassword = (EditText) findViewById(R.id.TxtPassword);
@@ -107,16 +107,24 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
         }
 
         private void registrarUsuario(){
+            Toast.makeText(this, "Entro A registro", Toast.LENGTH_SHORT).show();
             String email = TextEmail.getText().toString().trim();
-            String password  = TextPassword.getText().toString().trim();
+            final String password  = TextPassword.getText().toString().trim();
             String nombre = TextNombre.getText().toString().trim();
-            String numero = TextNumero.getText().toString().trim();
-            String codigoRegistro = TextCodigoRegistro.getText().toString().trim();
-            String fecha = BtnTextFecha.getText().toString().trim();
             String apellido = TextApellido.getText().toString().trim();
             String identificacion = TextIdentificacion.getText().toString().trim();
+            String numero = TextNumero.getText().toString().trim();
             String colegio = TextColegio.getText().toString().trim();
-            boolean verificacion= false;
+            String fecha = BtnTextFecha.getText().toString().trim();
+            String codigoRegistro = TextCodigoRegistro.getText().toString().trim();
+
+
+            String Doc1 = "Dato No Necesario";
+            String Doc2 = "Dato No Necesario";
+            String Doc3 = "Dato No Necesario";
+            String Doc4 = "Dato No Necesario";
+
+            boolean verificacion= true;
 
             if(TextUtils.isEmpty(email)){
                 Toast.makeText(this,"Se debe ingresar un email",Toast.LENGTH_LONG).show();
@@ -150,6 +158,7 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
 
             if(TextUtils.isEmpty(fecha)){
                 Toast.makeText(this, "Falta Digitar Fecha ",Toast.LENGTH_LONG).show();
+                return;
             }
 
 
@@ -161,28 +170,34 @@ public class Registro_Activity extends AppCompatActivity implements View.OnClick
             if(TextUtils.isEmpty(codigoRegistro)){
 
                 Toast.makeText(this,"Codigo De Registro No valido",Toast.LENGTH_LONG).show();
-
+                return;
             }
 
             if(TextUtils.isEmpty(colegio)){
 
                 Toast.makeText(this,"Codigo De Registro No valido",Toast.LENGTH_LONG).show();
-
+                return;
             }
 
 
 
             if(codigoRegistro.equals("estudiante")){
                 verificacion=true;
+
             }
 
             if(verificacion) {
-                Toast.makeText(this,"Bienvenido "+ nombre,Toast.LENGTH_LONG).show();
-                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) || !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) || !TextUtils.isEmpty(colegio) ){
+
+
+                if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(nombre) || !TextUtils.isEmpty(apellido) ||
+                        !TextUtils.isEmpty(numero) || !TextUtils.isEmpty(fecha) || !TextUtils.isEmpty(colegio) ){
+
+                    Toast.makeText(this,"Bienvenido "+ nombre,Toast.LENGTH_LONG).show();
+
                     String id = BDUsuarios.push().getKey();
-                    Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
+                    Intent intencionId = new  Intent(Registro_Activity.this, ChatActivity.class);
                     intencionId.putExtra("identificacion1",id);
-                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,identificacion,colegio,"NULL");
+                    Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,identificacion,colegio,Doc1,Doc2,Doc3,Doc4);
                     BDUsuarios.child("Informacion").child(id).setValue(usuario);
                     startActivity(intencionId);
                 }else{

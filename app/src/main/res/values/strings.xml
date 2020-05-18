@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Sponsor2</string>
+    <string name="nombre">Nombre</string>
+    <string name="mensaje">Mensaje</string>
+    <string name="actionAgregar">Agregar</string>
+    <string name="actionEditar">Editar</string>
+    <string name="actionEliminar">Eliminar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

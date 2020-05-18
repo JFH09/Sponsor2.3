@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/TxtCreador"
+        android:layout_width="315dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/botonredondo"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/colorfondo"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TxtFecha"
+        android:layout_width="157dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:background="@drawable/botonredondo_passw"
+        android:textColor="@color/colorfondo"
+        android:textSize="22dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toStartOf="@+id/TxtHora"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TxtCreador" />
+
+    <TextView
+        android:id="@+id/TxtHora"
+        android:layout_width="157dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:background="@drawable/botonredondo_passw"
+        android:gravity="center"
+        android:textColor="@color/colorfondo"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TxtFecha"
+        app:layout_constraintTop_toBottomOf="@+id/TxtCreador" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

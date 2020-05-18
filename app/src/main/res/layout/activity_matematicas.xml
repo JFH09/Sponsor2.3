@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorfondo"
     tools:context=".MatematicasActivity">
 
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="361dp"
-        android:layout_height="218dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="576dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,4 +26,89 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/horariotutores" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHorario"
+        android:layout_width="421dp"
+        android:layout_height="490dp"
+        app:layout_constraintBottom_toTopOf="@+id/botonAtras"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/grupoFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu_colorNormal="#3B5471">
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnAgregar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="BtnAgregar"
+            android:src="@drawable/ic_agregarmate_foreground"
+            app:fab_colorNormal="@color/colorIconosMatematicas"
+            app:fab_label="@string/actionAgregar"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="BtnEditar"
+            android:src="@drawable/ic_editarmate_foreground"
+            app:fab_colorNormal="@color/colorIconosMatematicas"
+            app:fab_label="@string/actionEditar"
+            app:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="BtnEliminar"
+            android:src="@drawable/ic_eliminar2_foreground"
+            app:fab_colorNormal="@color/colorIconosMatematicas"
+            app:fab_label="@string/actionEliminar"
+            app:fab_size="normal" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="51dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="195dp"
+        android:layout_marginRight="195dp"
+        android:layout_marginBottom="29dp"
+        android:background="@color/colorfondo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/grupoFab"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvMensajes"
+        app:srcCompat="?attr/homeAsUpIndicator" />
+
+    <ImageButton
+        android:id="@+id/botonactualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:onClick="BtnActualizar"
+        app:layout_constraintBottom_toTopOf="@+id/rvHorario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        app:srcCompat="@android:drawable/ic_popup_sync" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

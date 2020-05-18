@@ -1,10 +1,10 @@
 package com.example.sponsor2;
 
 public class Usuarios {
-    String email, password, nombre, apellido, numero, codigoRegistro, fecha, identificacion, universidad, DocHistoriaAcademica;
+    String email, password, nombre, apellido, numero, codigoRegistro, fecha, identificacion, universidad, DocHistoriaAcademica,Docidentif,Docacta,Docarnet;
 
 
-    public Usuarios(String email, String password, String nombre, String  apellido, String numero,  String fecha, String codigoRegistro, String identificacion, String universidad, String DocHistoriaAcademica){
+    public Usuarios(String email, String password, String nombre, String  apellido, String numero,  String fecha, String codigoRegistro, String identificacion, String universidad, String DocHistoriaAcademica, String Docidentif, String Docacta, String Docarnet){
         this.email=email;
         this.password=password;
         this.nombre=nombre;
@@ -15,6 +15,21 @@ public class Usuarios {
         this.identificacion= identificacion;
         this.universidad=universidad;
         this.DocHistoriaAcademica = DocHistoriaAcademica;
+        this.Docidentif = Docidentif;
+        this.Docacta = Docacta;
+        this.Docarnet = Docarnet;
+    }
+
+    public String getDocidentif() {
+        return Docidentif;
+    }
+
+    public String getDocacta() {
+        return Docacta;
+    }
+
+    public String getDocarnet() {
+        return Docarnet;
     }
 
     public String getDocHistoriaAcademica() {
