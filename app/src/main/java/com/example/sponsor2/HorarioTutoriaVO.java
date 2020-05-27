@@ -4,6 +4,12 @@ public class HorarioTutoriaVO {
 
     private String fecha,  horario, creador;
 
+    public HorarioTutoriaVO(String fecha, String horario, String creador){
+        this.fecha = fecha;
+        this.horario = horario;
+        this.creador = creador;
+    }
+
     public String getCreador() {
         return creador;
     }
@@ -27,4 +33,6 @@ public class HorarioTutoriaVO {
     public void setHorario(String horario) {
         this.horario = horario;
     }
+
+
 }

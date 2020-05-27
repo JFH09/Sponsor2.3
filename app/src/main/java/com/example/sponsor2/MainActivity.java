@@ -41,6 +41,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,7 @@ import com.google.firebase.database.annotations.Nullable;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference BDUsuario;
     private  Collection informeRef;
     private Button InicioGoogle;
-
+    private ImageView btnImagen;
     private TextView nombreTextView;
     private TextView emailTextView;
     private GoogleApiClient googleApiClient;
@@ -98,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int SIGN_IN_CODE = 777;
     private FirebaseAuth mAuth;
     private CallbackManager callbackManager;
+    boolean VerAdmin = false;
+    private ImageButton btnImageAdmin;
 
 
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -109,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         callbackManager = CallbackManager.Factory.create();
+
+
 
         //Google
         GoogleSignInOptions gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -132,7 +139,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnRegistrar = (Button) findViewById(R.id.botonRegistrar);
         btnEntrar = (Button) findViewById(R.id.botonEntrar);
         btnTutor = (Button) findViewById(R.id.botonTutor);
+        btnImagen = (ImageView) findViewById(R.id.imageButton);
+        btnImageAdmin =(ImageButton) findViewById(R.id.imgbtnAdmin);
         progressDialog = new ProgressDialog(this);
+
 
 
 
@@ -150,12 +160,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnEntrar.setOnClickListener(this);
         //InicioGoogle.setOnClickListener(this);
         btnTutor.setOnClickListener(this);
+        btnImageAdmin.setOnClickListener(this);
 
     }
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         if(requestCode==SIGN_IN_CODE){
+
             GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
@@ -194,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+
         progressDialog.setMessage("Iniciando Sesión en linea...");
         progressDialog.show();
 
@@ -208,7 +221,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             //Toast.makeText(MainActivity.this, "Bienvenido  "+user, Toast.LENGTH_LONG).show();
 
-                            if(user.equals("admin09") ){
+
+                            if(user.equals("admin09")){
                                 Toast.makeText(MainActivity.this,"Es Admin!",Toast.LENGTH_LONG).show();
                                 Intent intentAdmin = new Intent(getApplication(), AdminActivity.class);
                                 startActivity(intentAdmin);
@@ -239,11 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    public void IrInicioGoogle(){
-        Intent intent3 = new Intent(getApplication(),IniciarGoogleActivity.class);
-        startActivity(intent3);
 
-    }
 
     public void AccionRegistrar(){
         Intent intencion2 = new Intent(getApplication(),SaludoActivity.class);
@@ -268,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.botonTutor:
                 AccionTutor();
                 break;
+
 
 
         }

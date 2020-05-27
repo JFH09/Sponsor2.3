@@ -77,6 +77,8 @@ public class IniciarGoogleActivity extends AppCompatActivity  implements View.On
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
         //FirebaseAuth.getInstance().signOut();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -142,7 +144,7 @@ public class IniciarGoogleActivity extends AppCompatActivity  implements View.On
     private void handleSignInResult(GoogleSignInResult result) {
         if(result.isSuccess()){
             GoogleSignInAccount account =result.getSignInAccount();
-            txtUser.setText("Bienvenido "+account.getDisplayName()+" !");
+            txtUser.setText("Bienvenido "+"/n"+account.getDisplayName()+" !");
         }else{
 
         }

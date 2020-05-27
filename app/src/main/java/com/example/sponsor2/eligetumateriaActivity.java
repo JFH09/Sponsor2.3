@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class eligetumateriaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnmatematicas;
+    private Button btnmatematicas, btnBiologia;
     private String usuario;
     private String correo;
 
@@ -23,6 +23,8 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_eligetumateria);
 
         btnmatematicas = findViewById(R.id.botonMatematicas);
+        btnBiologia = findViewById(R.id.botonBiologia);
+
 
         tomarUsuario = getIntent().getExtras();
         usuario = tomarUsuario.getString("usuario");
@@ -32,6 +34,7 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
 
 
         btnmatematicas.setOnClickListener(this);
+        btnBiologia.setOnClickListener(this);
     }
 
     public void matematicas(){
@@ -43,12 +46,22 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         startActivity(matematicas);
     }
 
+    public void crud(){
+        Intent crud =new  Intent(getApplication(), Crud1Activity.class);
+        crud.putExtra("usuario",usuario);
+        crud.putExtra("correo",correo);
+        startActivity(crud);
+    }
+
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.botonMatematicas:
                 matematicas();
+                break;
+            case R.id.botonBiologia:
+                crud();
                 break;
 
         }

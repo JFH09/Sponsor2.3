@@ -32,24 +32,21 @@ public class AdminActivity extends AppCompatActivity {
         fabAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intento = new Intent(getApplication(),MatematicasActivity.class);
-                startActivity(intento);
+
             }
         });
 
         fabEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intento = new Intent(getApplication(),ChatActivity.class);
-                startActivity(intento);
+
             }
         });
 
         fabEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intento = new Intent(getApplication(),eligetumateriaActivity.class);
-                startActivity(intento);
+
             }
         });
 
