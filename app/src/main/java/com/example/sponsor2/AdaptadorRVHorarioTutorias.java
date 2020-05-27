@@ -6,51 +6,58 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class AdaptadorRVHorarioTutorias  extends RecyclerView.Adapter<AdaptadorRVHorarioTutorias.MensajeHolder> {
-    private List<HorarioTutoriaVO> listaHorario;
+public class AdaptadorRVHorarioTutorias  extends RecyclerView.Adapter<AdaptadorRVHorarioTutorias.ViewHolder> {
 
-    public String creador, fecha, hora;
 
-    public AdaptadorRVHorarioTutorias (List<HorarioTutoriaVO> listaHorario) {
-        this.listaHorario= listaHorario;
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+        private TextView  fecha, hora;
+        private TextView creador;
+
+        public ViewHolder (View itemView){
+            super(itemView);
+
+            fecha = (TextView) itemView.findViewById(R.id.TxtFecha);
+            hora = (TextView) itemView.findViewById(R.id.TxtHora);
+            creador = (TextView) itemView.findViewById(R.id.TxtCreador);
+
+        }
+
+    }
+
+    public List<HorarioTutoriaVO> listaHorarios;
+
+    public AdaptadorRVHorarioTutorias(MatematicasActivity matematicasActivity, List<HorarioTutoriaVO> listaHorarios){
+        this.listaHorarios=listaHorarios;
     }
 
 
     @NonNull
     @Override
-    public MensajeHolder onCreateViewHolder(@NonNull ViewGroup vistaHorario, int i) {
-        View Vista = LayoutInflater.from(vistaHorario.getContext()).inflate(R.layout.formamostartutoria,vistaHorario,false);
-        return new MensajeHolder(Vista);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.formamostartutoria,null,false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
-    public void  onBindViewHolder(@NonNull MensajeHolder poseedorInfo, int i) {
-        poseedorInfo.TxtCreador.setText(listaHorario.get(i).getCreador());
-        poseedorInfo.TxtFecha.setText(listaHorario.get(i).getFecha());
-        poseedorInfo.TxtHora.setText(listaHorario.get(i).getHorario());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.fecha.setText(listaHorarios.get(position).getFecha());
+        holder.hora.setText(listaHorarios.get(position).getHorario());
+        holder.creador.setText(listaHorarios.get(position).getCreador());
+
     }
-
-
 
     @Override
     public int getItemCount() {
-        return listaHorario.size();
+        return listaHorarios.size();
     }
 
-    class MensajeHolder extends RecyclerView.ViewHolder{
-        private TextView TxtCreador;
-        private TextView TxtFecha;
-        private TextView TxtHora;
 
-        public MensajeHolder(@NonNull View itemView){
-            super(itemView);
-            TxtCreador= itemView.findViewById(R.id.TxtCreador);
-            TxtFecha = itemView.findViewById(R.id.TxtFecha);
-            TxtHora = itemView.findViewById(R.id.TxtHora);
-        }
-    }
 }

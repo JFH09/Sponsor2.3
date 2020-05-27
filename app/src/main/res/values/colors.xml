@@ -17,4 +17,5 @@
     <color name="colorTutor">#FF469DCA</color>
     <color name="colorIconosMatematicas">#C65A05</color>
     <color name="colorTransparent">@color/fui_transparent</color>
+    <color name="colorBotonFondoBlanco">#959595</color>
 </resources>

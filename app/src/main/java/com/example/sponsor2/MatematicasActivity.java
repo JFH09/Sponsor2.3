@@ -14,11 +14,14 @@ import android.os.Bundle;
 import android.service.autofill.OnClickAction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,8 +39,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthActionCodeException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,6 +52,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +66,7 @@ import javax.annotation.Nullable;
 
 public class MatematicasActivity extends AppCompatActivity{
 
+    private String indicadorMateria = "Matematicas";
 
     private static final String usuario = "usuario";
 
@@ -69,7 +78,7 @@ public class MatematicasActivity extends AppCompatActivity{
     private Dialog ventanaEmergente, ventanaEmergenteEditar;
 
     DatePickerDialog.OnDateSetListener  DarFecha;
-
+    private String FechaTutoria;
     private String auxFecha;
     private TextView BtnTextFecha;
     private TextView BtnHoraTutoria;
@@ -85,67 +94,13 @@ public class MatematicasActivity extends AppCompatActivity{
     Bundle tomarCorreo;
 
     //EstaClase
-    private RecyclerView rvHorario;
-    private List<HorarioTutoriaVO> listaHorario;
-    private AdaptadorRVHorarioTutorias RAdaptadorHorariosTutorias;
-    private ImageButton btnActualizar;
+   // DatabaseReference databaseReference;
 
+    //List<Tutorias> listaTutorias= new ArrayList<>();
 
-    private void setComponents(){
+    //AdaptadorTutorias adaptador;
 
-        rvHorario = (RecyclerView) findViewById(R.id.rvHorario);
-        listaHorario = new ArrayList<>();
-        RAdaptadorHorariosTutorias = new AdaptadorRVHorarioTutorias(listaHorario);
-
-        rvHorario.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rvHorario.setAdapter(RAdaptadorHorariosTutorias);
-        rvHorario.setHasFixedSize(true);
-
-        if(BtnTextFecha.length() == 0 || nomUsuario.length() == 0 || BtnHoraTutoria.length() == 0)
-            return;
-
-        HorarioTutoriaVO RhorarioTutorias = new HorarioTutoriaVO();
-        RhorarioTutorias.setFecha(BtnTextFecha.getText().toString());
-        RhorarioTutorias.setCreador(nomUsuario);
-        RhorarioTutorias.setHorario(BtnHoraTutoria.getText().toString());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestore.getInstance().collection("Calendario").add(RhorarioTutorias);
-
-
-
-
-        db.collection("Calendario")
-
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        for (DocumentChange mDocumentChange : queryDocumentSnapshots.getDocumentChanges()){
-                            if(mDocumentChange.getType() == DocumentChange.Type.ADDED){
-                                listaHorario.add(mDocumentChange.getDocument().toObject(HorarioTutoriaVO.class));
-                                RAdaptadorHorariosTutorias.notifyDataSetChanged();
-                                rvHorario.smoothScrollToPosition(listaHorario.size());
-                            }
-                        }
-
-
-
-                    }
-                });
-      /*  btnActualizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(BtnTextFecha.length() == 0 || nomUsuario.length() == 0 || BtnHoraTutoria.length() == 0)
-                    return;
-                HorarioTutoriaVO RHorarioVO = new HorarioTutoriaVO();
-                RHorarioVO.setCreador(nomUsuario);
-
-                RHorarioVO.setFecha(BtnTextFecha.getText().toString());
-                RHorarioVO.setHorario(BtnHoraTutoria.getText().toString());
-                FirebaseFirestore.getInstance().collection("Calendario").add(RHorarioVO);
-            }
-        });*/
-
-    }
+    //RecyclerView rvUsuarios;
 
 
     @Override
@@ -153,10 +108,18 @@ public class MatematicasActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matematicas);
 
+     //   rvUsuarios = findViewById(R.id.rvHorario);
+       // rvUsuarios.setLayoutManager(new GridLayoutManager(this, 1));
+
+        //databaseReference = FirebaseDatabase.getInstance().getReference("Tutorias");
+
+       // RAdaptadorHorariosTutorias = new AdaptadorRVHorarioTutorias(ObtenerHorarios());
+       // recyclerViewHorario.setAdapter(RAdaptadorHorariosTutorias);
+
 
         BDTutorias= FirebaseDatabase.getInstance().getReference("Tutorias");
         BDHorarios= FirebaseDatabase.getInstance().getReference("Horarios");
-
+        //obtenerUsuarios();
         tomarUsuario = getIntent().getExtras();
         nomUsuario = tomarUsuario.getString("usuario");
 
@@ -164,7 +127,11 @@ public class MatematicasActivity extends AppCompatActivity{
         nomCorreo = tomarCorreo.getString("correo");
         CorreoUsuario=nomCorreo;
 
+
         Toast.makeText(this,"Correo!!!"+nomCorreo,Toast.LENGTH_LONG).show();
+
+
+
 
         ventanaEmergente = new Dialog(this);
 
@@ -182,7 +149,58 @@ public class MatematicasActivity extends AppCompatActivity{
 
 
     }
+ /*
+    public void obtenerUsuarios() {
+        listaTutorias.clear();
+        databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot objeto : dataSnapshot.getChildren()) {
+                    listaTutorias.add(objeto.getValue(Tutorias.class));
+                }
 
+                adaptador = new AdaptadorTutorias(this, listaTutorias);
+                rvUsuarios.setAdapter(adaptador);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+       // limpiarCampos();
+    }
+   */
+ /*
+    public void ObtenerDatosTutorias(){
+        horariosTutorias.clear();
+        String horariosUsuario = nomUsuario;
+        //String fechaT = BtnTextFecha.getText().toString().trim();
+        //String horaT = BtnHoraTutoria.getText().toString().trim();
+
+        Query query = BDTutorias.child("Tutorias").child("Tutorias"+horariosUsuario);  //.equalTo(horariosUsuario);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot objeto : dataSnapshot.getChildren()){
+                    horariosTutorias.add(objeto.getValue(HorarioTutoriaVO.class));
+                }
+
+                RAdaptadorHorariosTutorias = new AdaptadorRVHorarioTutorias(MatematicasActivity.this, horariosTutorias);
+                recyclerViewHorario.setAdapter(RAdaptadorHorariosTutorias);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+*/
 
 
     public void BtnAgregar(View view){
@@ -211,6 +229,8 @@ public class MatematicasActivity extends AppCompatActivity{
                 Toast.makeText(MatematicasActivity.this,"Agregando...",Toast.LENGTH_LONG).show();
                 AgregarFechaHoraTutoria(correo);
                 BtnAgregarEmerge.setText("Agregado");
+
+
 
             }
 
@@ -246,11 +266,12 @@ public class MatematicasActivity extends AppCompatActivity{
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 BtnTextFecha.setText( i + "/" + i1 +"/"+ i2);
                 TomarFecha = (i + "/" + i1 +"/"+ i2);
+                FechaTutoria = (i + "-"+i1+"-"+i2);
                 Toast.makeText(MatematicasActivity.this,"Fecha : "+TomarFecha,Toast.LENGTH_LONG).show();
             }
         };
 
-        BtnHoraTutoria = (TextView) ventanaEmergente.findViewById(R.id.TxtHoraTutoria);
+
 
        BtnHoraTutoria.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -296,11 +317,46 @@ public class MatematicasActivity extends AppCompatActivity{
     }
 
 
+/*
+    public List<HorarioTutoriaVO> ObtenerHorarios(){
+        final List<HorarioTutoriaVO> horario = new ArrayList<>();
+
+        BDTutorias.child("Tutorias").child("Tutorias"+nomUsuario).child(nomUsuario).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                horario.clear();
+
+                for(DataSnapshot objSnaptshot : dataSnapshot.getChildren()){
+                    HorarioTutoriaVO horariosFirebase = objSnaptshot.getValue(HorarioTutoriaVO.class);
+                    String f = horariosFirebase.getFecha();
+                    String h = horariosFirebase.getHorario();
+                    String c = horariosFirebase.getCreador();
+                    horario.add(new HorarioTutoriaVO(f,h,c));
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        String fechaT = BtnTextFecha.getText().toString().trim();
+        String horaT = BtnHoraTutoria.getText().toString().trim();
+
+        horario.add(new HorarioTutoriaVO(fechaT,horaT,nomUsuario));
+        return horario;
+    }
+*/
+    /////////
     public void AgregarFechaHoraTutoria(String correo){
 
 
             String horaT = BtnHoraTutoria.getText().toString().trim();
-            String fechaT = BtnTextFecha.getText().toString().trim();
+            String fechaT = FechaTutoria;
             String idUsuario = "usu1";
             String idUsu = correo;
 
@@ -308,16 +364,21 @@ public class MatematicasActivity extends AppCompatActivity{
             if(!TextUtils.isEmpty(horaT) || !TextUtils.isEmpty(fechaT) ){
 
                 Toast.makeText(this, "Nueva Tutoria el dia :  " + fechaT + "Con Hora "  + horaT,Toast.LENGTH_LONG ).show();
+
+
+
+
+
                 String id = BDTutorias.push().getKey();
 
-                Intent intencionId = new  Intent(this,MatematicasActivity.class);
+                Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                 intencionId.putExtra("TutoriaPara",nomUsuario);
-                Tutorias tutorias = new Tutorias(fechaT,horaT);
-                BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario).child(fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
-                startActivity(intencionId);                             //.child(dia+hora)
+                Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+                BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+indicadorMateria).child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
+                                           //.child(dia+hora)
 
-
-
+                BDTutorias.child("ListadoTutorias").child(indicadorMateria).child("D"+fechaT+"H:"+horaT+"Tutor="+nomUsuario).setValue(tutorias);
+                startActivity(intencionId);
 
 
             }else{
@@ -325,9 +386,14 @@ public class MatematicasActivity extends AppCompatActivity{
             }
 
 
+
+
+
      //   progressDialog.setMessage("Realizando registro en linea...");
        // progressDialog.show();
     }
+
+
 
     public void BtnEditar(View view){
 
@@ -388,6 +454,7 @@ public class MatematicasActivity extends AppCompatActivity{
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 BtnTextFecha.setText( i + "/" + i1 +"/"+ i2);
                 TomarFecha = (i + "/" + i1 +"/"+ i2);
+                FechaTutoria= (i+"-"+i1+"-"+"i2");
                 Toast.makeText(MatematicasActivity.this,"Fecha : "+TomarFecha,Toast.LENGTH_LONG).show();
             }
         };
@@ -450,7 +517,7 @@ public class MatematicasActivity extends AppCompatActivity{
 
             Intent intencionId = new  Intent(this,MatematicasActivity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
-            Tutorias tutorias = new Tutorias(fechaT,horaT);
+            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
             BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             startActivity(intencionId);                             //.child(dia+hora)
 
@@ -469,6 +536,7 @@ public class MatematicasActivity extends AppCompatActivity{
 
     public void BtnEliminar(View view){
         Toast.makeText(MatematicasActivity.this,"Eliminar ",Toast.LENGTH_SHORT).show();
+       // ObtenerDatosTutorias();
     }
 
 

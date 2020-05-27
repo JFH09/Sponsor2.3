@@ -100,8 +100,6 @@
 
 
 
-
-
     <Button
         android:id="@+id/botonEntrar"
         android:layout_width="wrap_content"
@@ -152,6 +150,21 @@
         app:layout_constraintTop_toTopOf="@+id/botonIniciarGoogle"
         app:srcCompat="@drawable/fui_ic_googleg_color_24dp" />
 
+    <ImageButton
+        android:id="@+id/imgbtnAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="354dp"
+        android:layout_marginLeft="354dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginBottom="201dp"
+        app:layout_constraintBottom_toTopOf="@+id/TxtEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icono_agregar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
