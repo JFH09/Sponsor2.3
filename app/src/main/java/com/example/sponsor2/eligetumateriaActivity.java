@@ -39,7 +39,7 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
 
     public void matematicas(){
 
-        Toast.makeText(this,"Paso.."+ usuario + correo,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Paso.."+ correo,Toast.LENGTH_LONG).show();
         Intent matematicas = new Intent(getApplication(),MatematicasActivity.class);
         matematicas.putExtra("usuario",usuario);
         matematicas.putExtra("correo",correo);
@@ -47,6 +47,7 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
     }
 
     public void crud(){
+
         Intent crud =new  Intent(getApplication(), Crud1Activity.class);
         crud.putExtra("usuario",usuario);
         crud.putExtra("correo",correo);

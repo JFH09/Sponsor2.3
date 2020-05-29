@@ -2,6 +2,7 @@ package com.example.sponsor2;
 
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -38,7 +40,7 @@ public class Crud1Activity extends AppCompatActivity {
     EditText etUsuario, etContrasena, etTelefono, etEmail;
     Button btnConsultar, btnConsultarUsuario, btnAgregar, btnEditar, btnEliminar, btnMatematicas;
     RecyclerView rvUsuarios;
-
+    private Dialog ventanaEmergente, ventanaEmergenteEditar;
 
     DatabaseReference databaseReference,BDTutorias;
 
@@ -49,9 +51,10 @@ public class Crud1Activity extends AppCompatActivity {
     String nomUsuario, nomCorreo;
     Bundle tomarUsuario;
     Bundle tomarCorreo;
-    private TextView BtnHoraTutoria,BtnTextFecha;
+    Bundle tomarUsuarioDeNuevo;
+    private TextView BtnHoraTutoria,BtnTextFecha,BtnTextEmergHora;
     DatePickerDialog.OnDateSetListener  DarFecha;
-    private String TomarFecha="NO HAY",FechaTutoria;
+    private String TomarFecha="NO HAY",FechaTutoria, CambiarHora2="No Hay Hora",TomarHora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,10 @@ public class Crud1Activity extends AppCompatActivity {
         BtnTextFecha = (TextView) findViewById(R.id.TxtVFecha);
         BtnTextFecha.setTextColor(Color.WHITE);
 
+
+        ventanaEmergente = new Dialog(this);
+
+        ventanaEmergenteEditar = new Dialog(this);
 
         etUsuario = findViewById(R.id.etUsuario);
         etContrasena = findViewById(R.id.etContrasena);
@@ -79,6 +86,14 @@ public class Crud1Activity extends AppCompatActivity {
 
         tomarCorreo = getIntent().getExtras();
         nomCorreo = tomarCorreo.getString("correo");
+        Toast.makeText(this,"Usuario en = "+nomUsuario,Toast.LENGTH_SHORT).show();
+        tomarUsuarioDeNuevo = getIntent().getExtras();
+        if(nomCorreo==null){
+
+            nomUsuario = tomarUsuarioDeNuevo.getString("TutoriaPara");
+            Toast.makeText(this,"Refrescando nomUsuaruo"+nomUsuario,Toast.LENGTH_LONG).show();
+        }
+
 
         rvUsuarios = findViewById(R.id.rvUsuarios);
         rvUsuarios.setLayoutManager(new GridLayoutManager(this, 1));
@@ -107,6 +122,7 @@ public class Crud1Activity extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int horadelDia, int minutodelDia) {
                         BtnHoraTutoria.setText(horadelDia + " : " + minutodelDia);
+                        TomarHora = (horadelDia + " : " + minutodelDia);
                         Toast.makeText(Crud1Activity.this,"Hora : "+BtnHoraTutoria.getText().toString().trim(),Toast.LENGTH_LONG).show();
                     }
                 }, hora, minutos, false);
@@ -209,10 +225,10 @@ public class Crud1Activity extends AppCompatActivity {
 
             String id = BDTutorias.push().getKey();
 
-            Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
+            Intent intencionId = new  Intent(this,Crud1Activity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
             Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
-            BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matemtaticas").child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
+            BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             //.child(dia+hora)
 
             BDTutorias.child("ListadoTutorias").child("Matematicas").child("D"+fechaT+"H:"+horaT+"Tutor="+nomUsuario).setValue(tutorias);
@@ -284,7 +300,7 @@ public class Crud1Activity extends AppCompatActivity {
 
     public void obtenerUsuarios() {
         listaTutorias.clear();
-        databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("ListadoTutorias").child("Matematicas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
@@ -304,43 +320,22 @@ public class Crud1Activity extends AppCompatActivity {
         limpiarCampos();
     }
 
-    public void editarHora() {
+    public void  editarHora(){
+
+
+
+        final Button BtnAgregarEmerge;
+        ImageButton BtnCerrar;
+        String CambiarHora;
+
         listaTutorias.clear();
-        final String horaE = BtnHoraTutoria.getText().toString();
-        String hora = BtnHoraTutoria.getText().toString();
+        String hora =TomarHora;
 
-        final Tutorias tutorias = new Tutorias(
-                nomUsuario,
-                FechaTutoria,
-                horaE
+        String fecha = FechaTutoria;
 
-        );
 
-        Query query = databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").orderByChild("hora").equalTo(tutorias.getFecha());
+        Query query = databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").orderByChild("hora").equalTo(hora);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String key = "";
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    key = ds.getKey(); // Obtiene el id del registro para poderlo editar
-                }
-
-                for(DataSnapshot objeto : dataSnapshot.getChildren()) {
-                    objeto.getRef().removeValue();
-                }
-
-                databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child(key).setValue(tutorias);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        Query query2 = databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").orderByChild("hora").equalTo(hora);
-        query2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
@@ -356,16 +351,153 @@ public class Crud1Activity extends AppCompatActivity {
         });
 
         limpiarCampos();
+
+        ventanaEmergente.setContentView(R.layout.activity_emergente_agregar);
+
+        BtnTextFecha = (TextView) ventanaEmergente.findViewById(R.id.TxtVFecha);
+        BtnTextFecha.setTextColor(Color.WHITE);
+        BtnTextEmergHora= (TextView) ventanaEmergente.findViewById(R.id.TxtHoraTutoria);
+
+        BtnAgregarEmerge = ventanaEmergente.findViewById(R.id.botonAgregar);
+
+
+        BtnCerrar = (ImageButton) ventanaEmergente.findViewById(R.id.btnCerrar);
+
+        BtnAgregarEmerge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String correo = nomCorreo;
+                Toast.makeText(Crud1Activity.this,"Agregando...",Toast.LENGTH_LONG).show();
+                ModificarUsuario(TomarFecha,CambiarHora2);
+                BtnAgregarEmerge.setText("Agregado");
+                ventanaEmergente.dismiss();
+
+
+            }
+
+
+
+        });
+
+
+
+        BtnTextFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Calendar cal= Calendar.getInstance();
+                int año = cal.get(Calendar.YEAR);
+                int mes = cal.get(Calendar.MONTH);
+                int dia = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        Crud1Activity.this,
+                        android.R.style.Theme_Material_Dialog_MinWidth,
+                        DarFecha,
+                        año, mes, dia);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+                dialog.show();
+
+
+            }
+        });
+        DarFecha = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                BtnTextFecha.setText( i + "/" + i1 +"/"+ i2);
+                TomarFecha = (i + "/" + i1 +"/"+ i2);
+                FechaTutoria = (i + "-"+i1+"-"+i2);
+                Toast.makeText(Crud1Activity.this,"Fecha : "+TomarFecha,Toast.LENGTH_LONG).show();
+            }
+        };
+
+
+
+        BtnTextEmergHora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar calendario = Calendar.getInstance();
+                int hora = calendario.get(Calendar.HOUR_OF_DAY);
+                int minutos = calendario.get(Calendar.MINUTE);
+
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(Crud1Activity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int horadelDia, int minutodelDia) {
+                        BtnTextEmergHora.setText(horadelDia + " : " + minutodelDia);
+                        TomarHora= (horadelDia + " : " + minutodelDia);
+                        CambiarHora2 = BtnHoraTutoria.getText().toString().trim();
+                        Toast.makeText(Crud1Activity.this,"Hora : "+BtnHoraTutoria.getText().toString().trim(),Toast.LENGTH_LONG).show();
+                    }
+                }, hora, minutos, false);
+                timePickerDialog.show();
+
+            }
+        });
+
+        BtnCerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ventanaEmergente.dismiss();
+
+            }
+        });
+
+
+
+
+
+
+
+        ventanaEmergente.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ventanaEmergente.show();
+
+
+
     }
+
+    private void ModificarUsuario(String tomarFecha, String cambiarHora2) {
+
+        String nuevaFecha = tomarFecha;
+        String nuevaHora = cambiarHora2;
+
+        String horaT = BtnHoraTutoria.getText().toString().trim();
+        String fechaT = FechaTutoria;
+        String idUsuario = nomUsuario;
+
+        Toast.makeText(this, "Correo = "+ idUsuario,Toast.LENGTH_SHORT).show();
+        if(!TextUtils.isEmpty(horaT) || !TextUtils.isEmpty(fechaT) ){
+
+            Toast.makeText(this, "Tutoria Modificada para el dia :  " + fechaT + "Con Hora "  + horaT,Toast.LENGTH_LONG ).show();
+
+
+            String id = BDTutorias.push().getKey();
+
+            Intent intencionId = new  Intent(this,Crud1Activity.class);
+            intencionId.putExtra("TutoriaPara",nomUsuario);
+            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+            BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
+            //.child(dia+hora)
+
+            BDTutorias.child("ListadoTutorias").child("Matematicas").child("D"+fechaT+"H:"+horaT+"Tutor="+nomUsuario).setValue(tutorias);
+            startActivity(intencionId);
+
+
+        }else{
+            Toast.makeText(this,"Falta algun Dato / Error ", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 
     public void eliminarUsuario() {
         listaTutorias.clear();
-        String hora = BtnHoraTutoria.getText().toString();
+        Toast.makeText(this,"TomarHora es = " + TomarHora,Toast.LENGTH_SHORT).show();
+        String hora = TomarHora;
 
-
-
-
-        Query query = databaseReference.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").orderByChild("hora").equalTo(hora);
+        Query query = BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").orderByChild("hora").equalTo(hora);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -388,8 +520,8 @@ public class Crud1Activity extends AppCompatActivity {
 
     public void limpiarCampos() {
         etUsuario.setText("");
-        etContrasena.setText("");
-        etTelefono.setText("");
+        BtnHoraTutoria.setText("");
+        BtnTextFecha.setText("");
         etEmail.setText("");
     }
 
