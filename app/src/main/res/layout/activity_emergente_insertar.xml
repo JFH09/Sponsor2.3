@@ -9,8 +9,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     app:layout_gravity="bottom|clip_horizontal|center|clip_vertical|start|right|center_horizontal|fill|fill_horizontal|top|left|center_vertical|fill_vertical|end"
-    tools:context=".EmergenteEditarActivity">
-
+    tools:context=".EmergenteInsertarActivity">
 
     <TextView
         android:id="@+id/TxtVFecha2"
@@ -69,26 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-    <EditText
-        android:id="@+id/etUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/botonredondo_passw"
-        android:ems="30"
-        android:gravity="center"
-        android:hint="Usuario"
-        android:inputType="text"
-        android:textColor="@color/colorLetraGris"
-        android:textSize="23dp"
-        app:layout_constraintBottom_toTopOf="@+id/botonAgregar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TxtVFecha2" />
 
     <ImageButton
         android:id="@+id/btnCerrar"

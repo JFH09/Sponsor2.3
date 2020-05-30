@@ -217,7 +217,7 @@ public class MatematicasActivity extends AppCompatActivity{
         BtnTextFecha.setTextColor(Color.WHITE);
 
 
-        BtnAgregarEmerge = ventanaEmergente.findViewById(R.id.botonAgregar);
+        BtnAgregarEmerge = ventanaEmergente.findViewById(R.id.botonEditar);
 
 
         BtnCerrar = (ImageButton) ventanaEmergente.findViewById(R.id.btnCerrar);
