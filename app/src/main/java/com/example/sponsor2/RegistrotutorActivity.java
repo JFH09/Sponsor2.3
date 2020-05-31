@@ -511,7 +511,7 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
                 Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                 intencionId.putExtra("identificacion1",id);
                 Usuarios usuario = new Usuarios(email,password,nombre,apellido,numero,fecha,codigoRegistro,identificacion,universidad,DocHistoriaAcademica,Docidentif,Docacta,Docarnet);
-                BDUsuarios.child("Informacion").child(id).setValue(usuario);
+                BDUsuarios.child("Informacion").child("Tutores").child(id).setValue(usuario);
                 startActivity(intencionId);
 
 

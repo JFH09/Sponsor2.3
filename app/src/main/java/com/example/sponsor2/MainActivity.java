@@ -71,6 +71,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 
@@ -224,10 +225,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             if(user.equals("admin09")){
                                 Toast.makeText(MainActivity.this,"Es Admin!",Toast.LENGTH_LONG).show();
-                                Intent intentAdmin = new Intent(getApplication(), AdminActivity.class);
+                                Intent intentAdmin = new Intent(getApplication(), ChatActivity.class);
                                 startActivity(intentAdmin);
 
-                            }else {
+                            }/*else {
                                 Toast.makeText(MainActivity.this, "Bienvenido  "+user, Toast.LENGTH_LONG).show();
                                 Intent intent1 = new Intent(getApplication(), eligetumateriaActivity.class);//chatActivity
                                // Bundle envioUser = new Bundle();
@@ -235,7 +236,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 intent1.putExtra("usuario",user);
                                 intent1.putExtra("correo",email);
                                 startActivity(intent1);
-                            }
+                            }*/
+
+
+                            Query query = BDUsuario.child("Informacion").child("Estudiantes").orderByChild("email").equalTo(email);
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                DataSnapshot Traer;
+                                int pos= email.indexOf("@");
+                                String user = email.substring(0,pos);
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot objeto : dataSnapshot.getChildren()) {
+
+                                        if(objeto.exists()){
+                                            Toast.makeText(MainActivity.this,"Se encontro el Estudiante",Toast.LENGTH_LONG).show();
+                                            Intent intentoEstudiantes = new Intent(getApplication(), materiasestudiantesActivity.class);
+                                            intentoEstudiantes.putExtra("usuario",user);
+                                            intentoEstudiantes.putExtra("correo",email);
+                                            startActivity(intentoEstudiantes);
+                                        }
+                                    }
+
+                                    //adaptador = new AdaptadorTutorias(Crud1Activity.this, listaTutorias);
+                                    //rvUsuarios.setAdapter(adaptador);
+
+                                   // limpiarCampos();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                            Query query2 = BDUsuario.child("Informacion").child("Tutores").orderByChild("email").equalTo(email);
+                            query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                                DataSnapshot Traer;
+                                int pos= email.indexOf("@");
+                                String user = email.substring(0,pos);
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot objeto : dataSnapshot.getChildren()) {
+
+
+                                        if(objeto.exists()){
+                                            Toast.makeText(MainActivity.this,"Se encontro el Tutor ",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(MainActivity.this,"Se encontro el Tutor ",Toast.LENGTH_LONG).show();
+                                            Intent intentoTutor = new Intent(getApplication(), eligetumateriaActivity.class);
+                                            intentoTutor.putExtra("usuario",user);
+                                            intentoTutor.putExtra("correo",email);
+                                            startActivity(intentoTutor);
+                                        }
+                                    }
+
+                                    //adaptador = new AdaptadorTutorias(Crud1Activity.this, listaTutorias);
+                                    //rvUsuarios.setAdapter(adaptador);
+
+
+                                    // limpiarCampos();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }else{
 
                             Toast.makeText(MainActivity.this,"No se pudo Iniciar Sesion ",Toast.LENGTH_LONG).show();

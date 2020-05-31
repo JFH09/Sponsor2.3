@@ -405,6 +405,7 @@ public class Crud1Activity extends AppCompatActivity {
 
         limpiarCampos();
     }
+
     public void BusquedaPorUsuario(){
 
 
@@ -440,7 +441,7 @@ public class Crud1Activity extends AppCompatActivity {
         BtnTextEmergeAgregarHora.setVisibility(View.INVISIBLE);
         BtnTextEmergeAgregarFecha.setVisibility(View.INVISIBLE);
 
-        BtnAgregarEmerge.setText("Buscar Tutorias Hechas Por el Usuario");
+        BtnAgregarEmerge.setText("Buscar Tutorias Por el Tutor");
 
         TxtBusquedaUsuario = (TextView) ventanaEmergente.findViewById(R.id.etUsuario);
         BuscarUsuario = TxtBusquedaUsuario.getText().toString().trim();

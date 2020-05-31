@@ -35,86 +35,17 @@ public class ChatActivity extends AppCompatActivity {
     private EditText txtNombre;
     private EditText txtMensaje;
     private ImageButton btnEnviar;
-    private String  usuario;
-    //private DateFormatSymbols db;
+    private DateFormatSymbols db;
     private List<MensajeVO> listaMensajes;
     private AdaptadorRVMensajes RAdaptadorMensaje;
     //private DateFormatSymbols FirebaseFirestore;
     private DatabaseReference BDUsuario;
 
 
+    String usuario, correo;
 
-    private void  setComponents(){
-
-        Bundle recibeUser = this.getIntent().getExtras();
-
-        if(recibeUser!=null){
-            String usuario = recibeUser.getString("usuario");
-            Toast.makeText(this, " Nombre" + usuario,Toast.LENGTH_LONG).show();
-
-/*
-            String id = BDUsuario.push().getKey();
-
-            Intent intencion4 = new  Intent();
-            intencion4.putExtra("Nombre",usuario);
-            //intencion4.putExtra("Mensaje",Mensaje1);
-            AdaptadorRVMensajes adrp = new AdaptadorRVMensajes(usuario,Mensaje1);
-            BDUsuario.child("Chat").child(id).setValue(adrp);
-            startActivity(intencion4);
-*/
-
-        }
-
-        BDUsuario= FirebaseDatabase.getInstance().getReference("Chat");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-        rVerMensaje = (RecyclerView) findViewById(R.id.rvMensajes);
-        txtNombre = (EditText) findViewById(R.id.TxtNombre);
-        txtMensaje = (EditText) findViewById(R.id.TxtMensaje);
-        btnEnviar = (ImageButton) findViewById(R.id.botonEnviar);
-
-        txtNombre.setText(usuario);
-        listaMensajes = new ArrayList<>();
-        RAdaptadorMensaje = new AdaptadorRVMensajes(listaMensajes);
-
-        rVerMensaje.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        rVerMensaje.setAdapter(RAdaptadorMensaje);
-        rVerMensaje.setHasFixedSize(true);
-
-        /*Map<String, Object> Enviarmensaje = new HashMap<>();
-        Enviarmensaje.put("Transmisor:",txtNombre);
-        Enviarmensaje.put("mensaje",txtMensaje.getText().toString().trim());*/
-
-        db.collection("Chat")
-
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        for (DocumentChange mDocumentChange : queryDocumentSnapshots.getDocumentChanges()){
-                            if(mDocumentChange.getType() == DocumentChange.Type.ADDED){
-                                listaMensajes.add(mDocumentChange.getDocument().toObject(MensajeVO.class));
-                                RAdaptadorMensaje.notifyDataSetChanged();
-                                rVerMensaje.smoothScrollToPosition(listaMensajes.size());
-                            }
-                        }
-                    }
-                });
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(txtMensaje.length() == 0)
-                    return;
-                MensajeVO RMensajeVO = new MensajeVO();
-                RMensajeVO.setMensaje(txtMensaje.getText().toString());
-                RMensajeVO.setNombre(usuario);
-
-                FirebaseFirestore.getInstance().collection("Chat").add(RMensajeVO);
-                txtMensaje.setText("");
-            }
-        });
-
-    }
+    Bundle tomarUsuario;
+    Bundle tomarCorreo;
 
 
 
@@ -124,8 +55,14 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
 
+        tomarUsuario = getIntent().getExtras();
+        usuario = tomarUsuario.getString("usuario");
 
 
-        setComponents();
+        tomarCorreo = getIntent().getExtras();
+        correo = tomarCorreo.getString("correo");
+
+
+        Toast.makeText(ChatActivity.this, "Usuario = "+usuario, Toast.LENGTH_SHORT ).show();
     }
 }

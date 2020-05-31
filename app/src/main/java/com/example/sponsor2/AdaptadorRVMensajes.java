@@ -10,45 +10,52 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensajes.MensajeHolder> {
+public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensajes.MensajesViewHolder> {
+
 
         private List<MensajeVO> listaMensaje;
-
         public String nombre;
 
+        ChatActivity context;
 
-        public AdaptadorRVMensajes (List<MensajeVO> listaMensaje) {
+
+        public AdaptadorRVMensajes(ChatActivity context, List<MensajeVO> listaMensaje){
+                this.context= context;
                 this.listaMensaje= listaMensaje;
         }
 
+
         @NonNull
         @Override
-        public MensajeHolder onCreateViewHolder(@NonNull ViewGroup vistaMensaje, int i) {
-                View Vista = LayoutInflater.from(vistaMensaje.getContext()).inflate(R.layout.forma_mensajes,vistaMensaje,false);
-                return new MensajeHolder(Vista);
+        public MensajesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.forma_mensajes,null, false);
+
+                return new AdaptadorRVMensajes.MensajesViewHolder(vista);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MensajeHolder poseedorMensaje, int i) {
-                poseedorMensaje.TxtRecibMensaje.setText(listaMensaje.get(i).getMensaje());
-                poseedorMensaje.TxtNombreMensaje.setText(listaMensaje.get(i).getNombre());
+        public void onBindViewHolder(@NonNull MensajesViewHolder holder, int position) {
+                holder.TxtNombreMensaje.setText(listaMensaje.get(position).getMensaje());
+                holder.TxtRecibMensaje.setText(listaMensaje.get(position).getNombre());
 
         }
-
 
         @Override
         public int getItemCount() {
                 return listaMensaje.size();
         }
 
-        class MensajeHolder extends RecyclerView.ViewHolder{
-                private TextView TxtNombreMensaje;
-                private TextView TxtRecibMensaje;
+        public class MensajesViewHolder extends RecyclerView.ViewHolder{
 
-                public MensajeHolder(@NonNull View itemView){
+                TextView TxtNombreMensaje, TxtRecibMensaje;
+
+                public MensajesViewHolder(@NonNull View itemView) {
                         super(itemView);
-                        TxtNombreMensaje= itemView.findViewById(R.id.TxtNombreMensaje);
+
                         TxtRecibMensaje = itemView.findViewById(R.id.TxtRecibMensaje);
+                        TxtNombreMensaje = itemView.findViewById(R.id.TxtNombreMensaje);
+
+
                 }
         }
 

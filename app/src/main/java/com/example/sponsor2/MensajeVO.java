@@ -2,9 +2,13 @@ package com.example.sponsor2;
 
 public class MensajeVO {
 
-    private String nombre;
-    private String mensaje;
+    String nombre;
+    String mensaje;
 
+    public MensajeVO(String nombre, String mensaje){
+        this.nombre=nombre;
+        this.mensaje=mensaje;
+    }
 
     public String getNombre(){
         return nombre;

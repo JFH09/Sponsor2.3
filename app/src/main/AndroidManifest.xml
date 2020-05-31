@@ -13,6 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".MatematicasEstudianteActivity"></activity>
+        <activity android:name=".HorarioEstudianteActivity" />
+        <activity android:name=".materiasestudiantesActivity" />
+        <activity android:name=".observarmateriaestudianteActivity" />
+        <activity android:name=".EligemateriaEstudianteActivity" />
+        <activity android:name=".Main2Activity" />
         <activity android:name=".Crud1Activity" />
         <activity android:name=".EmergenteEditarActivity" />
         <activity android:name=".EmergenteAgregarActivity" />
