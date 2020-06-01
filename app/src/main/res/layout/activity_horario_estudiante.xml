@@ -48,7 +48,7 @@
 
 
             <Button
-                android:id="@+id/btnChats"
+                android:id="@+id/btnChat"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="6dp"
@@ -57,9 +57,28 @@
                 android:stateListAnimator="@null"
                 android:text="Chat De Tutoria"
                 android:textColor="@color/colorfondo" />
+            <Button
+                android:id="@+id/btnEliminar"
+                android:layout_width="131dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="6dp"
+                android:layout_weight="20"
+                android:background="@drawable/botonredtransparente"
+                android:stateListAnimator="@null"
+                android:text="Retirar Tutoria"
+                android:textColor="@color/colorfondo" />
 
 
-
+            <Button
+                android:id="@+id/btnAtras"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="6dp"
+                android:layout_weight="20"
+                android:background="@drawable/botonredtransparente"
+                android:stateListAnimator="@null"
+                android:text="Atras"
+                android:textColor="@color/colorfondo" />
         </LinearLayout>
     </HorizontalScrollView>
 

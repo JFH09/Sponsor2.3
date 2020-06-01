@@ -1,7 +1,10 @@
 package com.example.sponsor2;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,13 +21,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorarioEstudianteActivity extends AppCompatActivity {
+public class HorarioEstudianteActivity extends AppCompatActivity  {
 
     String usuario, correo;
     String nomUsuario, nomCorreo;
     Bundle tomarUsuario;
     Bundle tomarCorreo;
     Bundle tomarUsuarioDeNuevo;
+
+
+    Button BtnChat;
 
     DatabaseReference BDHorariosTutorias;
     List<Tutorias> listaTutorias= new ArrayList<>();
@@ -67,6 +73,19 @@ public class HorarioEstudianteActivity extends AppCompatActivity {
 
 
         ObtenerHorarioTutorias();
+
+
+        BtnChat = findViewById(R.id.btnChat);
+
+        BtnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentchat = new Intent(getApplication(), ChatActivity.class);
+                intentchat.putExtra("usuario",nomUsuario);
+                intentchat.putExtra("correo",nomCorreo);
+                startActivity(intentchat);
+            }
+        });
     }
 
 
@@ -94,4 +113,6 @@ public class HorarioEstudianteActivity extends AppCompatActivity {
         //limpiarCampos();
 
     }
+
+
 }

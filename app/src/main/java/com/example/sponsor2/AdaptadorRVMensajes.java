@@ -1,5 +1,6 @@
 package com.example.sponsor2;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,9 @@ import java.util.List;
 
 public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensajes.MensajesViewHolder> {
 
+        Context context;
+        List<MensajeVO> listaMensaje;
 
-        private List<MensajeVO> listaMensaje;
-        public String nombre;
-
-        ChatActivity context;
 
 
         public AdaptadorRVMensajes(ChatActivity context, List<MensajeVO> listaMensaje){
