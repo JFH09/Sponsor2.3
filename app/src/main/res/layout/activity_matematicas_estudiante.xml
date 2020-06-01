@@ -97,6 +97,7 @@
         android:hint="Hora De Tutoria"
         android:textColor="@color/colorLetraGris"
         android:textSize="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
@@ -111,6 +112,7 @@
         android:hint="Dia De Tutoria"
         android:textColor="@color/colorLetraGris"
         android:textSize="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent"
@@ -177,7 +179,7 @@
                 android:layout_weight="20"
                 android:background="@drawable/botonrematematicas"
                 android:stateListAnimator="@null"
-                android:text="Busqueda Por Usuario"
+                android:text="Busqueda Por Tutor"
                 android:textColor="@color/colorfondo" />
 
 

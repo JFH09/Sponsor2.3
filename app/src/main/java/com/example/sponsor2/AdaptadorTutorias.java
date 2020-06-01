@@ -1,5 +1,6 @@
 package com.example.sponsor2;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,10 @@ public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.Tu
 
 
 
-    Crud1Activity context;
+    Context context;
     List<Tutorias> listaTutorias;
 
-    public AdaptadorTutorias(Crud1Activity context, List<Tutorias> listaTutorias){
+    public AdaptadorTutorias(Context context, List<Tutorias> listaTutorias){
         this.context= context;
         this.listaTutorias= listaTutorias;
     }
