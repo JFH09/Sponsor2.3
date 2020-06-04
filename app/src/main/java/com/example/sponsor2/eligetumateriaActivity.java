@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class eligetumateriaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnmatematicas, btnBiologia;
+    private Button btnHorarioTutoria,btnmatematicas, btnBiologia;
     private String usuario;
     private String correo;
 
@@ -22,6 +22,7 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eligetumateria);
 
+        btnHorarioTutoria = findViewById(R.id.botonVerHorario);
         btnmatematicas = findViewById(R.id.botonMatematicas);
         btnBiologia = findViewById(R.id.botonBiologia);
 
@@ -32,7 +33,7 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         tomarCorreo = getIntent().getExtras();
         correo = tomarCorreo.getString("correo");
 
-
+        btnHorarioTutoria.setOnClickListener(this);
         btnmatematicas.setOnClickListener(this);
         btnBiologia.setOnClickListener(this);
     }
@@ -55,6 +56,15 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
     }
 
 
+    public void horarioTutor(){
+        Intent horario = new Intent(getApplication(), HorarioTutoresActivity.class);
+        horario.putExtra("usuario",usuario);
+        horario.putExtra("correo",correo);
+        startActivity(horario);
+
+    }
+
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
@@ -65,6 +75,9 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
                 crud();
                 break;
 
+            case R.id.botonVerHorario:
+                horarioTutor();
+                break;
         }
     }
 }

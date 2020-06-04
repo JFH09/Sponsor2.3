@@ -1,23 +1,26 @@
 package com.example.sponsor2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.TutoriasViewHolder>{
+public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.TutoriasViewHolder> implements View.OnClickListener{
 
 
 
 
     Context context;
     List<Tutorias> listaTutorias;
+    private View.OnClickListener listener;
 
     public AdaptadorTutorias(Context context, List<Tutorias> listaTutorias){
         this.context= context;
@@ -29,7 +32,7 @@ public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.Tu
     @Override
     public TutoriasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.formamostartutoria,null, false);
-
+        vista.setOnClickListener(this);
         return new AdaptadorTutorias.TutoriasViewHolder(vista);
     }
 
@@ -45,7 +48,18 @@ public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.Tu
         return listaTutorias.size();
     }
 
-    public class TutoriasViewHolder extends RecyclerView.ViewHolder{
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener!=null){
+            listener.onClick(view);
+        }
+    }
+
+    public class TutoriasViewHolder extends RecyclerView.ViewHolder {
 
         TextView TxtCreador,TxtHora, TxtFecha;
 
@@ -57,6 +71,9 @@ public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.Tu
             TxtFecha = itemView.findViewById(R.id.TxtFecha);
 
         }
+
+
+
     }
 
 }

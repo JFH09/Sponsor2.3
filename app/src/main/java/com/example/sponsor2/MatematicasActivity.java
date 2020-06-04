@@ -368,12 +368,11 @@ public class MatematicasActivity extends AppCompatActivity{
 
 
 
-
                 String id = BDTutorias.push().getKey();
 
                 Intent intencionId = new  Intent(this,eligetumateriaActivity.class);
                 intencionId.putExtra("TutoriaPara",nomUsuario);
-                Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+                Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario,indicadorMateria);
                 BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+indicadorMateria).child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
                                            //.child(dia+hora)
 
@@ -517,7 +516,7 @@ public class MatematicasActivity extends AppCompatActivity{
 
             Intent intencionId = new  Intent(this,MatematicasActivity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
-            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario,indicadorMateria);
             BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             startActivity(intencionId);                             //.child(dia+hora)
 

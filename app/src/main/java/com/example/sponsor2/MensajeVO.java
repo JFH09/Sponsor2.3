@@ -5,6 +5,10 @@ public class MensajeVO {
     String nombre;
     String mensaje;
 
+    public MensajeVO(){
+
+    }
+
     public MensajeVO(String nombre, String mensaje){
         this.nombre=nombre;
         this.mensaje=mensaje;

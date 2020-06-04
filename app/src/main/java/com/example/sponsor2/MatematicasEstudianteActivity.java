@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MatematicasEstudianteActivity extends AppCompatActivity {
@@ -408,6 +409,10 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
 
         boolean horaTutoria = EncontroTutoria[0];
         boolean fechaTutoria= EncontroTutoria[1];
+
+        String dia = new Date().toString();
+
+
         Toast.makeText(MatematicasEstudianteActivity.this,"Ver"+horaTutoria+fechaTutoria,Toast.LENGTH_LONG).show();
         String tomandoCreador = creador+"}";
         //Toast.makeText(MatematicasEstudianteActivity.this,"Creador=")
@@ -423,12 +428,14 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
             Toast.makeText(MatematicasEstudianteActivity.this,"Agregando Tutoria A tu Horario",Toast.LENGTH_LONG).show();
             Intent intencionId = new  Intent(this,MatematicasEstudianteActivity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
-            Tutorias tutorias = new Tutorias(FechaTutoria,TomarHora,creadortutoria);
+            Tutorias tutorias = new Tutorias(FechaTutoria,TomarHora,creadortutoria,indicadorMateria);
             BDHorariosTutorias.child("Horario"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+FechaTutoria+"H:"+TomarHora).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             //.child(dia+hora)
-
-            BDChats.child("Materias"+nomUsuario).child(indicadorMateria+nomUsuario).child(creadortutoria+nomUsuario).child("D"+FechaTutoria+"H:"+TomarHora+"Tutor="+nomUsuario).setValue(tutorias);
+            //child("D"+FechaTutoria+"H:"+TomarHora+"Tutor="+nomUsuario)
+            MensajeVO mensajeUno = new MensajeVO(nomUsuario,"Conectado - "+nomUsuario);
+            BDChats.child("Materias"+nomUsuario).child(indicadorMateria+nomUsuario).child(creadortutoria+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+dia).setValue(mensajeUno);
             startActivity(intencionId);
+
 
 
         }else{

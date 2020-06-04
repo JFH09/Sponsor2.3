@@ -34,8 +34,8 @@ public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensaje
 
         @Override
         public void onBindViewHolder(@NonNull MensajesViewHolder holder, int position) {
-                holder.TxtNombreMensaje.setText(listaMensaje.get(position).getMensaje());
-                holder.TxtRecibMensaje.setText(listaMensaje.get(position).getNombre());
+                holder.TxtNombreMensaje.setText(listaMensaje.get(position).getNombre());
+                holder.TxtRecibMensaje.setText(listaMensaje.get(position).getMensaje());
 
         }
 

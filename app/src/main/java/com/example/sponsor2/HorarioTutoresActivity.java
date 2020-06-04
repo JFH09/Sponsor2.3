@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HorarioEstudianteActivity extends AppCompatActivity  {
+public class HorarioTutoresActivity extends AppCompatActivity {
 
     String materiaTutoria, tutorTutoria;
 
@@ -34,7 +34,7 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
 
     Button BtnChat;
 
-    DatabaseReference BDHorariosTutorias, BDChats,BDTutorias;
+    DatabaseReference BDTutorias;
     List<Tutorias> listaTutorias= new ArrayList<>();
 
     AdaptadorTutorias adaptador;
@@ -44,8 +44,7 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_horario_estudiante);
-
+        setContentView(R.layout.activity_horario_tutores);
 
 
         tomarUsuario = getIntent().getExtras();
@@ -70,10 +69,10 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
         rvUsuarios.setLayoutManager(new GridLayoutManager(this, 1));
 
 
-        BDHorariosTutorias= FirebaseDatabase.getInstance().getReference("HorariosTutorias");
-        BDChats = FirebaseDatabase.getInstance().getReference("Chats");
-        BDTutorias = FirebaseDatabase.getInstance().getReference("Tutorias");
+        BDTutorias= FirebaseDatabase.getInstance().getReference("Tutorias");
 
+
+        ObtenerEstudiantes();
         ObtenerHorarioTutorias();
 
 
@@ -85,21 +84,40 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
                 Toast.makeText(getApplicationContext(),"Click en la tutoria la cual quieres entrar...",Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+    public void ObtenerEstudiantes(){
+        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot objeto : dataSnapshot.getChildren()) {
+                    listaTutorias.add(objeto.getValue(Tutorias.class));
+                }
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
     }
 
-
-
     public void ObtenerHorarioTutorias(){
-
         listaTutorias.clear();
-        BDHorariosTutorias.child("Horario"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
                     listaTutorias.add(objeto.getValue(Tutorias.class));
                 }
 
-                adaptador = new AdaptadorTutorias(HorarioEstudianteActivity.this, listaTutorias);
+                adaptador = new AdaptadorTutorias(HorarioTutoresActivity.this, listaTutorias);
 
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -116,21 +134,10 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
 
                         Intent intentChat = new Intent(getApplication(), ChatActivity.class);
                         intentChat.putExtra("materiaTutoria",materiaTutoria);
-                        intentChat.putExtra("tutorTutoria",tutorTutoria);
+                        //intentChat.putExtra("tutorTutoria",tutorTutoria);
                         intentChat.putExtra("usuario",nomUsuario);
                         intentChat.putExtra("correo",nomCorreo);
-
-
-                        MensajeVO mensajeUno = new MensajeVO(nomUsuario,"Hola Soy "+nomUsuario);
-                        NombreChat estudiantes = new NombreChat(nomUsuario);
-
-                        //BDChats.child("PersonasEnChat").child("NombreChat").child(materiaTutoria).setValue(estudiantes);
-                        BDTutorias.child("Tutorias"+tutorTutoria).child(tutorTutoria+materiaTutoria).child("Estudiantes").setValue(estudiantes);
                         startActivity(intentChat);
-
-
-
-
 
 
                     }
@@ -146,10 +153,6 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
 
             }
         });
-
-        //limpiarCampos();
-
     }
-
 
 }

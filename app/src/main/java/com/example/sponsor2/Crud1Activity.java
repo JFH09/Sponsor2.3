@@ -37,7 +37,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Crud1Activity extends AppCompatActivity {
+public class Crud1Activity extends AppCompatActivity{
+
+    private String indicadorMateria = "Matematicas";
 
     EditText etUsuario, etContrasena, etTelefono, etEmail;
     TextView TxtBusquedaUsuario;
@@ -361,7 +363,7 @@ public class Crud1Activity extends AppCompatActivity {
 
             Intent intencionId = new  Intent(this,Crud1Activity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
-            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario,indicadorMateria);
             BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             //.child(dia+hora)
 
@@ -930,7 +932,7 @@ public class Crud1Activity extends AppCompatActivity {
 
             Intent intencionId = new  Intent(this,Crud1Activity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
-            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario);
+            Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario,indicadorMateria);
             BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             //.child(dia+hora)
 
