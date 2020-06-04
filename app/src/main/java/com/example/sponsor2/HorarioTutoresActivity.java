@@ -23,6 +23,7 @@ import java.util.List;
 
 public class HorarioTutoresActivity extends AppCompatActivity {
 
+    String estudiante;
     String materiaTutoria, tutorTutoria;
 
     String usuario, correo;
@@ -87,12 +88,19 @@ public class HorarioTutoresActivity extends AppCompatActivity {
 
     }
     public void ObtenerEstudiantes(){
-        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+
+
+        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("Estudiantes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot objeto : dataSnapshot.getChildren()) {
-                    listaTutorias.add(objeto.getValue(Tutorias.class));
+                    String estud = objeto.getValue().toString();
+
+                    Toast.makeText(HorarioTutoresActivity.this,"Estudiante //// "+estud,Toast.LENGTH_SHORT).show();
+                    TomarEstudiante(estud);
                 }
+
+
 
 
             }
@@ -106,6 +114,11 @@ public class HorarioTutoresActivity extends AppCompatActivity {
 
         });
 
+
+    }
+
+    public void TomarEstudiante(String estud){
+        estudiante = estud;  // Si no se hace un arreglo aca cuando alla mas de un estudiante va a explotar esta vaina
     }
 
     public void ObtenerHorarioTutorias(){
@@ -122,6 +135,9 @@ public class HorarioTutoresActivity extends AppCompatActivity {
                 adaptador.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        ObtenerEstudiantes();
+
                         Toast.makeText(getApplicationContext(), "Tutor"+
                                 listaTutorias.get(rvUsuarios.getChildAdapterPosition(view)).getUsuario(),Toast.LENGTH_SHORT).show();
 
@@ -132,11 +148,12 @@ public class HorarioTutoresActivity extends AppCompatActivity {
 
                         tutorTutoria = listaTutorias.get(rvUsuarios.getChildAdapterPosition(view)).getUsuario();
 
-                        Intent intentChat = new Intent(getApplication(), ChatActivity.class);
+                        Intent intentChat = new Intent(getApplication(), ChatTutoresActivity.class);
                         intentChat.putExtra("materiaTutoria",materiaTutoria);
-                        //intentChat.putExtra("tutorTutoria",tutorTutoria);
+                        //intentChat.putExtra("tutorTutoria",nomUsuario);
                         intentChat.putExtra("usuario",nomUsuario);
                         intentChat.putExtra("correo",nomCorreo);
+                        intentChat.putExtra("estudiante",estudiante);
                         startActivity(intentChat);
 
 

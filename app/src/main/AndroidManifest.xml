@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".HorarioTutoresActivity"></activity>
+        <activity android:name=".ChatTutoresActivity"></activity>
+        <activity android:name=".HorarioTutoresActivity" />
         <activity android:name=".MatematicasEstudianteActivity" />
         <activity android:name=".HorarioEstudianteActivity" />
         <activity android:name=".materiasestudiantesActivity" />

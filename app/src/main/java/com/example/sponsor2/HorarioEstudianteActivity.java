@@ -70,6 +70,7 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
         rvUsuarios.setLayoutManager(new GridLayoutManager(this, 1));
 
 
+
         BDHorariosTutorias= FirebaseDatabase.getInstance().getReference("HorariosTutorias");
         BDChats = FirebaseDatabase.getInstance().getReference("Chats");
         BDTutorias = FirebaseDatabase.getInstance().getReference("Tutorias");

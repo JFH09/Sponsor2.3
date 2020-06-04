@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -14,33 +13,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.Nullable;
-
-public class ChatActivity extends AppCompatActivity {
+public class ChatTutoresActivity extends AppCompatActivity {
 
     private RecyclerView rVerMensaje;
     private EditText TxtCreador;
@@ -51,23 +37,26 @@ public class ChatActivity extends AppCompatActivity {
     List<MensajeVO> listaMensajes= new ArrayList<>();
     AdaptadorRVMensajes RAdaptadorMensaje;
     //private DateFormatSymbols FirebaseFirestore;
-    private  DatabaseReference BDChats;
+    private DatabaseReference BDChats;
     String[] Tutoria = new String[100];
     int cont=0;
     String usuario, correo;
-    String nomUsuario, nomCorreo,nomMateria, nomTutor;
+    String nomUsuario, nomCorreo,nomMateria, nomTutor,nomEstudiante;
     Bundle tomarUsuario;
     Bundle tomarCorreo;
     Bundle tomarUsuarioDeNuevo;
     Bundle tomarMateria;
     Bundle tomarTutor;
+    Bundle tomarEstudiante;
 
 
     RecyclerView rvMensajes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat_tutores);
+
 
         rvMensajes = findViewById(R.id.rvMensajes);
         rvMensajes.setLayoutManager(new GridLayoutManager(this, 1));
@@ -77,8 +66,7 @@ public class ChatActivity extends AppCompatActivity {
         tomarMateria = getIntent().getExtras();
         nomMateria = tomarMateria.getString("materiaTutoria");
 
-        tomarTutor = getIntent().getExtras();
-        nomTutor= tomarTutor.getString("tutorTutoria");
+
 
 
         tomarUsuario = getIntent().getExtras();
@@ -94,6 +82,8 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(this,"Refrescando nomUsuaruo"+nomUsuario,Toast.LENGTH_LONG).show();
         }
 
+        tomarEstudiante = getIntent().getExtras();
+        nomEstudiante = tomarEstudiante.getString("estudiante");
 
 
 
@@ -101,7 +91,7 @@ public class ChatActivity extends AppCompatActivity {
         TxtMateriaTutoria.setText("Tutor "+nomTutor+" /-"+nomMateria);
 
         TxtCreador = findViewById(R.id.TxtNombre);
-        TxtCreador.setText(nomUsuario);
+        TxtCreador.setText(nomEstudiante);
 
         TxtMensaje = findViewById(R.id.TxtMensaje);
 
@@ -116,22 +106,22 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
+
+
 
     public void ObtenerMensajes(){
 
-        //Toast.makeText(this,"Entro A obtener Mensajes..",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Estudiante.."+nomEstudiante,Toast.LENGTH_LONG).show();
         listaMensajes.clear();
-        BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").addValueEventListener(new ValueEventListener() {
+        BDChats.child("Materias"+nomEstudiante).child(nomMateria+nomEstudiante).child(nomUsuario+nomEstudiante).child("Mensajes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
                     listaMensajes.add(objeto.getValue(MensajeVO.class));
                 }
 
-                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatActivity.this, listaMensajes, nomUsuario);
+                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatTutoresActivity.this, listaMensajes, nomUsuario);
                 rvMensajes.setAdapter(RAdaptadorMensaje);
             }
 
@@ -149,7 +139,7 @@ public class ChatActivity extends AppCompatActivity {
 
     public void EnviarMensaje(){
 
-       // Toast.makeText(this,"Enviar!",Toast.LENGTH_LONG).show();
+        // Toast.makeText(this,"Enviar!",Toast.LENGTH_LONG).show();
         //String Hora ;
         listaMensajes.clear();
         String dia   =  new Date().toString();
@@ -165,11 +155,11 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(this, "Mensaje Envio ad " ,Toast.LENGTH_LONG ).show();
 
 
-           // Intent intencionId = new  Intent(this,ChatActivity.class);
+            // Intent intencionId = new  Intent(this,ChatActivity.class);
             //intencionId.putExtra("MensajeDe",nomUsuario);
             MensajeVO contenidoMensaje = new MensajeVO(nomUsuario,Mensaje);
 
-            BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+nomTutor+dia).setValue(contenidoMensaje);
+            BDChats.child("Materias"+nomEstudiante).child(nomMateria+nomEstudiante).child(nomUsuario+nomEstudiante).child("Mensajes").child("MensajeDe"+nomEstudiante+nomUsuario+dia).setValue(contenidoMensaje);
             //BDChats.child("Tutor"+nomTutor).child("Chat"+nomMateria).
             // Edit.Rapid.BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario).setValue(contenidoMensaje); PARA EDITAR RAPIDO
 
