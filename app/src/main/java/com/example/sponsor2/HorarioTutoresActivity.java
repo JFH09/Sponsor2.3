@@ -73,7 +73,7 @@ public class HorarioTutoresActivity extends AppCompatActivity {
         BDTutorias= FirebaseDatabase.getInstance().getReference("Tutorias");
 
 
-        ObtenerEstudiantes();
+      //  ObtenerEstudiantes();
         ObtenerHorarioTutorias();
 
 
@@ -87,10 +87,10 @@ public class HorarioTutoresActivity extends AppCompatActivity {
         });
 
     }
-    public void ObtenerEstudiantes(){
+    public void ObtenerEstudiantes(String materiaTutoria){
 
 
-        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").child("Estudiantes").addValueEventListener(new ValueEventListener() {
+        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+materiaTutoria).child("Estudiantes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot objeto : dataSnapshot.getChildren()) {
@@ -119,11 +119,13 @@ public class HorarioTutoresActivity extends AppCompatActivity {
 
     public void TomarEstudiante(String estud){
         estudiante = estud;  // Si no se hace un arreglo aca cuando alla mas de un estudiante va a explotar esta vaina
+        Toast.makeText(this,"Se tomo Estud: "+estudiante,Toast.LENGTH_LONG).show();
+
     }
 
     public void ObtenerHorarioTutorias(){
         listaTutorias.clear();
-        BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+        BDTutorias.child("Tutorias"+nomUsuario).child("ListadoTutorias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
@@ -136,7 +138,7 @@ public class HorarioTutoresActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        ObtenerEstudiantes();
+
 
                         Toast.makeText(getApplicationContext(), "Tutor"+
                                 listaTutorias.get(rvUsuarios.getChildAdapterPosition(view)).getUsuario(),Toast.LENGTH_SHORT).show();
@@ -148,13 +150,25 @@ public class HorarioTutoresActivity extends AppCompatActivity {
 
                         tutorTutoria = listaTutorias.get(rvUsuarios.getChildAdapterPosition(view)).getUsuario();
 
-                        Intent intentChat = new Intent(getApplication(), ChatTutoresActivity.class);
-                        intentChat.putExtra("materiaTutoria",materiaTutoria);
-                        //intentChat.putExtra("tutorTutoria",nomUsuario);
-                        intentChat.putExtra("usuario",nomUsuario);
-                        intentChat.putExtra("correo",nomCorreo);
-                        intentChat.putExtra("estudiante",estudiante);
-                        startActivity(intentChat);
+                        ObtenerEstudiantes(materiaTutoria);
+
+     /*                   if(estudiante == null){
+                            Toast.makeText(HorarioTutoresActivity.this, "AUN NO PUEDES INGRESAR AL CHAT ESPERAA QUE INGRESE EL ESTUDIANTE ",Toast.LENGTH_LONG).show();
+                            Intent salidaEmerg = new Intent(getApplication(), eligetumateriaActivity.class);
+                            salidaEmerg.putExtra("usuario",nomUsuario);
+                            salidaEmerg.putExtra("correo",nomCorreo);
+                            startActivity(salidaEmerg);
+                        }else{*/
+                            Intent intentChat = new Intent(getApplication(), ChatTutoresActivity.class);
+                            intentChat.putExtra("materiaTutoria",materiaTutoria);
+                            //intentChat.putExtra("tutorTutoria",nomUsuario);
+                            intentChat.putExtra("usuario",nomUsuario);
+                            intentChat.putExtra("correo",nomCorreo);
+                            intentChat.putExtra("estudiante",estudiante);
+                            startActivity(intentChat);
+
+
+                        //}
 
 
                     }

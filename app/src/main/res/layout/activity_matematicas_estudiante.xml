@@ -138,7 +138,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/botonrematematicas"
+            android:background="@drawable/botonredtransparente"
             android:orientation="horizontal"
             android:weightSum="100"
             app:layout_constraintEnd_toEndOf="parent"
@@ -146,12 +146,12 @@
             app:layout_constraintTop_toBottomOf="@+id/etUsuario">
 
             <Button
-                android:id="@+id/btnMatematicas"
+                android:id="@+id/btnMateria"
                 android:layout_width="131dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="6dp"
                 android:layout_weight="20"
-                android:background="@drawable/botonrematematicas"
+                android:background="@drawable/botonredtransparente"
                 android:stateListAnimator="@null"
                 android:text="Matematicas"
                 android:textColor="@color/colorfondo" />
@@ -166,7 +166,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="6dp"
                 android:layout_weight="20"
-                android:background="@drawable/botonrematematicas"
+                android:background="@drawable/botonredtransparente"
                 android:stateListAnimator="@null"
                 android:text="Agregar a tu Horario"
                 android:textColor="@color/colorfondo" />
@@ -177,7 +177,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="6dp"
                 android:layout_weight="20"
-                android:background="@drawable/botonrematematicas"
+                android:background="@drawable/botonredtransparente"
                 android:stateListAnimator="@null"
                 android:text="Busqueda Por Tutor"
                 android:textColor="@color/colorfondo" />

@@ -93,7 +93,7 @@ public class HorarioEstudianteActivity extends AppCompatActivity  {
     public void ObtenerHorarioTutorias(){
 
         listaTutorias.clear();
-        BDHorariosTutorias.child("Horario"+nomUsuario).child(nomUsuario+"Matematicas").addValueEventListener(new ValueEventListener() {
+        BDHorariosTutorias.child("Horario"+nomUsuario).child("listaTutorias").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {

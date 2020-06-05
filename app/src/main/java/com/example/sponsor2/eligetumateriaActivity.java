@@ -11,7 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class eligetumateriaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnHorarioTutoria,btnmatematicas, btnBiologia;
+    private String indicadorMateria;
+    private Button btnHorarioTutoria,btnmatematicas, btnBiologia, btnSociales, btnEspañol, btnFisica, btnQuimica, btnIngles;
     private String usuario;
     private String correo;
 
@@ -25,6 +26,11 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         btnHorarioTutoria = findViewById(R.id.botonVerHorario);
         btnmatematicas = findViewById(R.id.botonMatematicas);
         btnBiologia = findViewById(R.id.botonBiologia);
+        btnSociales = findViewById(R.id.botonSociales);
+        btnEspañol = findViewById(R.id.botonEspañol);
+        btnFisica = findViewById(R.id.botonFisica);
+        btnQuimica = findViewById(R.id.botonEd_Fisica);
+        btnIngles = findViewById(R.id.botonIngles);
 
 
         tomarUsuario = getIntent().getExtras();
@@ -36,22 +42,22 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
         btnHorarioTutoria.setOnClickListener(this);
         btnmatematicas.setOnClickListener(this);
         btnBiologia.setOnClickListener(this);
+        btnSociales.setOnClickListener(this);
+        btnEspañol.setOnClickListener(this);
+        btnFisica.setOnClickListener(this);
+        btnQuimica.setOnClickListener(this);
+        btnIngles.setOnClickListener(this);
+
     }
 
-    public void matematicas(){
 
-        Toast.makeText(this,"Paso.."+ correo,Toast.LENGTH_LONG).show();
-        Intent matematicas = new Intent(getApplication(),MatematicasActivity.class);
-        matematicas.putExtra("usuario",usuario);
-        matematicas.putExtra("correo",correo);
-        startActivity(matematicas);
-    }
 
-    public void crud(){
+    public void crud(String indicadorMateria){
 
         Intent crud =new  Intent(getApplication(), Crud1Activity.class);
         crud.putExtra("usuario",usuario);
         crud.putExtra("correo",correo);
+        crud.putExtra("indiMateria",indicadorMateria);
         startActivity(crud);
     }
 
@@ -69,10 +75,38 @@ public class eligetumateriaActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.botonMatematicas:
-                matematicas();
+
+                indicadorMateria = "Matematicas";
+                crud(indicadorMateria);
                 break;
             case R.id.botonBiologia:
-                crud();
+                indicadorMateria = "Biologia";
+                crud(indicadorMateria);
+                break;
+
+            case R.id.botonSociales:
+                indicadorMateria = "Sociales";
+                crud(indicadorMateria);
+                break;
+
+            case R.id.botonEspañol:
+                indicadorMateria = "Español";
+                crud(indicadorMateria);
+                break;
+
+            case R.id.botonFisica:
+                indicadorMateria = "Fisica";
+                crud(indicadorMateria);
+                break;
+
+            case R.id.botonEd_Fisica:
+                indicadorMateria = "Quimica";
+                crud(indicadorMateria);
+                break;
+
+            case R.id.botonIngles:
+                indicadorMateria = "Ingles";
+                crud(indicadorMateria);
                 break;
 
             case R.id.botonVerHorario:

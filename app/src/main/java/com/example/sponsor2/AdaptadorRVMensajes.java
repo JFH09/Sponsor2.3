@@ -28,12 +28,15 @@ public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensaje
         Context context;
         List<MensajeVO> listaMensaje;
         String usuario;
+        String materia;
+        String matematicas = "Matematicas";
 
 
-        public AdaptadorRVMensajes(Context context, List<MensajeVO> listaMensaje, String usuario){
+        public AdaptadorRVMensajes(Context context, List<MensajeVO> listaMensaje, String usuario, String materia){
                 this.context= context;
                 this.listaMensaje= listaMensaje;
                 this.usuario = usuario;
+                this.materia = materia;
         }
 
 
@@ -58,10 +61,52 @@ public class AdaptadorRVMensajes extends RecyclerView.Adapter<AdaptadorRVMensaje
                 holder.TxtNombreMensaje.setText(listaMensaje.get(position).getNombre());
                 holder.TxtRecibMensaje.setText(listaMensaje.get(position).getMensaje());
 
-                if(holder.TxtNombreMensaje.getText().toString().equals(usuario)){
-                        holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botontutor);
+
+                if(holder.TxtNombreMensaje.getText().toString().equals(usuario)  ){
+                       //holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botontutor);
+
+
+                        holder.TxtRecibMensaje.setLayoutDirection(213);
+                        holder.TxtNombreMensaje.setLayoutDirection(213);
+
+                        holder.TxtRecibMensaje.setBackgroundResource(R.drawable.botonredondomensaje);
+                        holder.TxtRecibMensaje.setTextColor(Color.WHITE);
+                        //holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonredondo);
+                        if(materia.equals("Matematicas")) {
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonrematematicas);
+                        }
+
+                        if(materia.equals("Biologia")){
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonrebiologia);
+
+                        }
+                        if(materia.equals("Español")){
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonespanol);
+
+                        }
+                        if(materia.equals("Sociales")){
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonresociales);
+
+                        }
+                        if(materia.equals("Fisica")){
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonrefisica);
+
+                        }
+                        if(materia.equals("Quimica")){
+
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonreedufisica);
+                        }
+                        if(materia.equals("Ingles")){
+                                holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonreingles);
+
+                        }
+
+
+
+
                 }else{
-                        holder.TxtNombreMensaje.setBackgroundResource(R.drawable.botonredondo);
+
+
                 }
 
         }

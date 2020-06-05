@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -39,10 +40,10 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
 
     EditText etUsuario, etContrasena, etTelefono, etEmail;
     TextView TxtBusquedaUsuario,BtnHoraTutoria,BtnTextFecha,BtnTextEmergHora,BtnTextEmergeEditarHora,BtnTextEmergeEditarFecha,BtnTextEmergeAgregarFecha,BtnTextEmergeAgregarHora;
-    Button btnConsultar, btnConsultarUsuario, btnAgregar, btnEditar, btnEliminar, btnMatematicas;
+    Button btnConsultar, btnConsultarUsuario, btnAgregar, btnEditar, btnEliminar, btnMateria;
     Button BtnMatematicas, NuevaTutoria, consultarPorTutor;
 
-    String usuario, correo, FechaTutoria,TomarHora,CambiarHora2,TomarFecha,indicadorMateria = "Matematicas";
+    String usuario, correo, FechaTutoria,TomarHora,CambiarHora2,TomarFecha,indicadorMateria;
     boolean fechaEncontrada = false,horaEncontrada = false;
     boolean confirmFecha, confirmHora;
     boolean[] EncontroTutoria = new boolean[2];
@@ -50,10 +51,12 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
     Bundle tomarUsuario;
     Bundle tomarCorreo;
     Bundle tomarUsuarioDeNuevo;
+    Bundle tomarMateria;
 
     DatabaseReference databaseReference,BDTutorias,BDHorariosTutorias,BDChats;
 
     private   Dialog ventanaEmergente;
+    HorizontalScrollView scrollView;
     DatePickerDialog.OnDateSetListener  DarFecha1,DarFecha2;
 
     List<Tutorias> listaTutorias= new ArrayList<>();
@@ -67,10 +70,12 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matematicas_estudiante);
 
+        btnMateria = findViewById(R.id.btnMateria);
+
         ventanaEmergente = new Dialog(this);
 
 
-
+        scrollView = (HorizontalScrollView)findViewById(R.id.scrollView2);
 
         tomarUsuario = getIntent().getExtras();
         nomUsuario = tomarUsuario.getString("usuario");
@@ -88,6 +93,12 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
         }
 
         usuario= nomUsuario;
+
+        tomarMateria = getIntent().getExtras();
+        indicadorMateria = tomarMateria.getString("materia");
+
+        btnMateria.setText(indicadorMateria);
+
         rvUsuarios = findViewById(R.id.rvUsuarios);
         rvUsuarios.setLayoutManager(new GridLayoutManager(this, 1));
 
@@ -103,11 +114,11 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         btnConsultar = findViewById(R.id.btnConsultar);
         btnConsultarUsuario = findViewById(R.id.btnConsultarUsuario);
-        btnMatematicas = findViewById(R.id.btnMatematicas);
+
         btnEditar = findViewById(R.id.btnEditar);
         btnEliminar = findViewById(R.id.btnEliminar);
 
-        BtnMatematicas = findViewById(R.id.btnMatematicas);
+        //BtnMatematicas = findViewById(R.id.btnMatematicas);
         NuevaTutoria = findViewById(R.id.btnElegirTutoria);
         consultarPorTutor = findViewById(R.id.btnConsultaPorTutor);
 
@@ -119,10 +130,40 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
         etUsuario.setVisibility(View.INVISIBLE);
 
 
+        if(indicadorMateria.equals("Matematicas")) {
+            scrollView.setBackgroundResource(R.drawable.botonrematematicas);
+
+        }
+
+        if(indicadorMateria.equals("Biologia")){
+            scrollView.setBackgroundResource(R.drawable.botonrebiologia);
+
+        }
+        if(indicadorMateria.equals("Español")){
+            scrollView.setBackgroundResource(R.drawable.botonespanol);
+
+        }
+        if(indicadorMateria.equals("Sociales")){
+            scrollView.setBackgroundResource(R.drawable.botonresociales);
+
+        }
+        if(indicadorMateria.equals("Fisica")){
+            scrollView.setBackgroundResource(R.drawable.botonrefisica);
+
+        }
+        if(indicadorMateria.equals("Quimica")){
+
+            scrollView.setBackgroundResource(R.drawable.botonreedufisica);
+        }
+        if(indicadorMateria.equals("Ingles")){
+            scrollView.setBackgroundResource(R.drawable.botonreingles);
+
+        }
+
         ObtenerTutoriasMateria();
 
 
-        BtnMatematicas.setOnClickListener(new View.OnClickListener() {
+        btnMateria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ObtenerTutoriasMateria();
@@ -142,7 +183,7 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
     public void ObtenerTutoriasMateria(){
 
         listaTutorias.clear();
-        databaseReference.child("ListadoTutorias").child("Matematicas").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("ListadoTutorias").child(indicadorMateria).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
@@ -429,9 +470,12 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
             Intent intencionId = new  Intent(this,MatematicasEstudianteActivity.class);
             intencionId.putExtra("TutoriaPara",nomUsuario);
             Tutorias tutorias = new Tutorias(FechaTutoria,TomarHora,creadortutoria,indicadorMateria);
-            BDHorariosTutorias.child("Horario"+nomUsuario).child(nomUsuario+"Matematicas").child("D"+FechaTutoria+"H:"+TomarHora).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
+            BDHorariosTutorias.child("Horario"+nomUsuario).child(nomUsuario+indicadorMateria).child("D"+FechaTutoria+"H:"+TomarHora).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
             //.child(dia+hora)
             //child("D"+FechaTutoria+"H:"+TomarHora+"Tutor="+nomUsuario)
+
+            BDHorariosTutorias.child("Horario"+nomUsuario).child("listaTutorias").child("D"+FechaTutoria+"H:"+TomarHora).setValue(tutorias);
+
             MensajeVO mensajeUno = new MensajeVO(nomUsuario,"Conectado - "+nomUsuario);
             BDChats.child("Materias"+nomUsuario).child(indicadorMateria+nomUsuario).child(creadortutoria+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+dia).setValue(mensajeUno);
             startActivity(intencionId);

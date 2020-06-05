@@ -2,6 +2,7 @@ package com.example.sponsor2;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -85,10 +86,41 @@ public class ChatTutoresActivity extends AppCompatActivity {
         tomarEstudiante = getIntent().getExtras();
         nomEstudiante = tomarEstudiante.getString("estudiante");
 
-
+        Toast.makeText(ChatTutoresActivity.this,"!!!!!!!1"+nomUsuario,Toast.LENGTH_LONG).show();
 
         TxtMateriaTutoria= (TextView) findViewById(R.id.TxtMateria);
-        TxtMateriaTutoria.setText("Tutor "+nomTutor+" /-"+nomMateria);
+        TxtMateriaTutoria.setText(nomMateria);
+        TxtMateriaTutoria.setTextColor(Color.WHITE);
+
+        if(nomMateria.equals("Matematicas")) {
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrematematicas);
+
+        }
+
+        if(nomMateria.equals("Biologia")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrebiologia);
+
+        }
+        if(nomMateria.equals("Español")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonespanol);
+
+        }
+        if(nomMateria.equals("Sociales")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonresociales);
+
+        }
+        if(nomMateria.equals("Fisica")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrefisica);
+
+        }
+        if(nomMateria.equals("Quimica")){
+
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonreedufisica);
+        }
+        if(nomMateria.equals("Ingles")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonreingles);
+
+        }
 
         TxtCreador = findViewById(R.id.TxtNombre);
         TxtCreador.setText(nomEstudiante);
@@ -120,8 +152,9 @@ public class ChatTutoresActivity extends AppCompatActivity {
                 for(DataSnapshot objeto : dataSnapshot.getChildren()) {
                     listaMensajes.add(objeto.getValue(MensajeVO.class));
                 }
+                Toast.makeText(ChatTutoresActivity.this,"Materia Va como.."+nomMateria,Toast.LENGTH_LONG).show();
 
-                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatTutoresActivity.this, listaMensajes, nomUsuario);
+                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatTutoresActivity.this, listaMensajes, nomUsuario, nomMateria);
                 rvMensajes.setAdapter(RAdaptadorMensaje);
             }
 

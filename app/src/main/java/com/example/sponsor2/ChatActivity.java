@@ -2,6 +2,7 @@ package com.example.sponsor2;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -98,8 +99,38 @@ public class ChatActivity extends AppCompatActivity {
 
 
         TxtMateriaTutoria= (TextView) findViewById(R.id.TxtMateria);
-        TxtMateriaTutoria.setText("Tutor "+nomTutor+" /-"+nomMateria);
+        TxtMateriaTutoria.setText(nomMateria);
+        TxtMateriaTutoria.setTextColor(Color.WHITE);
 
+        if(nomMateria.equals("Matematicas")) {
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrematematicas);
+
+        }
+
+        if(nomMateria.equals("Biologia")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrebiologia);
+
+        }
+        if(nomMateria.equals("Español")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonespanol);
+
+        }
+        if(nomMateria.equals("Sociales")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonresociales);
+
+        }
+        if(nomMateria.equals("Fisica")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonrefisica);
+
+        }
+        if(nomMateria.equals("Quimica")){
+
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonreedufisica);
+        }
+        if(nomMateria.equals("Ingles")){
+            TxtMateriaTutoria.setBackgroundResource(R.drawable.botonreingles);
+
+        }
         TxtCreador = findViewById(R.id.TxtNombre);
         TxtCreador.setText(nomUsuario);
 
@@ -131,7 +162,7 @@ public class ChatActivity extends AppCompatActivity {
                     listaMensajes.add(objeto.getValue(MensajeVO.class));
                 }
 
-                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatActivity.this, listaMensajes, nomUsuario);
+                RAdaptadorMensaje = new AdaptadorRVMensajes(ChatActivity.this, listaMensajes, nomUsuario, nomMateria);
                 rvMensajes.setAdapter(RAdaptadorMensaje);
             }
 
