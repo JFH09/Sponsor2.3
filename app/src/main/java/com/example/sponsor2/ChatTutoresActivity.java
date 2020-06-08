@@ -30,7 +30,7 @@ import java.util.List;
 public class ChatTutoresActivity extends AppCompatActivity {
 
     private RecyclerView rVerMensaje;
-    private EditText TxtCreador;
+    private TextView TxtCreador;
     private EditText TxtMensaje;
     private TextView TxtMateriaTutoria;
     private ImageButton BotonEnviar;
@@ -127,14 +127,17 @@ public class ChatTutoresActivity extends AppCompatActivity {
 
         TxtMensaje = findViewById(R.id.TxtMensaje);
 
-
+        listaMensajes.clear();
         ObtenerMensajes();
+        listaMensajes.clear();
         BotonEnviar= findViewById(R.id.botonEnviar);
         BotonEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                listaMensajes.clear();
                 EnviarMensaje();
+                //                                        ObtenerMensajes();
+
 
             }
         });
@@ -143,6 +146,8 @@ public class ChatTutoresActivity extends AppCompatActivity {
 
 
     public void ObtenerMensajes(){
+
+
 
         Toast.makeText(this,"Estudiante.."+nomEstudiante,Toast.LENGTH_LONG).show();
         listaMensajes.clear();
@@ -156,6 +161,7 @@ public class ChatTutoresActivity extends AppCompatActivity {
 
                 RAdaptadorMensaje = new AdaptadorRVMensajes(ChatTutoresActivity.this, listaMensajes, nomUsuario, nomMateria);
                 rvMensajes.setAdapter(RAdaptadorMensaje);
+
             }
 
             @Override
@@ -164,8 +170,8 @@ public class ChatTutoresActivity extends AppCompatActivity {
             }
         });
 
-
-
+        //rvMensajes.clearOnChildAttachStateChangeListeners();
+        listaMensajes.clear();
     }
 
 
@@ -203,8 +209,8 @@ public class ChatTutoresActivity extends AppCompatActivity {
 
         TxtMensaje.setText("");
         listaMensajes.clear();
-        rvMensajes.clearOnChildAttachStateChangeListeners();
-        //ObtenerMensajes();
+        //rvMensajes.clearOnChildAttachStateChangeListeners();
+        ObtenerMensajes();
     }
 
 

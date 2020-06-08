@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
 public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView rVerMensaje;
-    private EditText TxtCreador;
+    private TextView TxtCreador;
     private EditText TxtMensaje;
     private TextView TxtMateriaTutoria;
     private ImageButton BotonEnviar;
@@ -136,13 +136,14 @@ public class ChatActivity extends AppCompatActivity {
 
         TxtMensaje = findViewById(R.id.TxtMensaje);
 
-
+        listaMensajes.clear();
         ObtenerMensajes();
+        listaMensajes.clear();
         BotonEnviar= findViewById(R.id.botonEnviar);
         BotonEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                listaMensajes.clear();
                 EnviarMensaje();
 
             }
@@ -155,6 +156,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //Toast.makeText(this,"Entro A obtener Mensajes..",Toast.LENGTH_LONG).show();
         listaMensajes.clear();
+       // rvMensajes.clearOnScrollListeners();
         BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -173,6 +175,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
+        listaMensajes.clear();
 
     }
 
@@ -198,9 +201,16 @@ public class ChatActivity extends AppCompatActivity {
 
            // Intent intencionId = new  Intent(this,ChatActivity.class);
             //intencionId.putExtra("MensajeDe",nomUsuario);
+
+
+
             MensajeVO contenidoMensaje = new MensajeVO(nomUsuario,Mensaje);
 
-            BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+nomTutor+dia).setValue(contenidoMensaje);
+            BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario)
+                    .child(nomTutor+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+nomTutor+dia).setValue(contenidoMensaje);
+
+
+
             //BDChats.child("Tutor"+nomTutor).child("Chat"+nomMateria).
             // Edit.Rapid.BDChats.child("Materias"+nomUsuario).child(nomMateria+nomUsuario).child(nomTutor+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario).setValue(contenidoMensaje); PARA EDITAR RAPIDO
 
@@ -211,8 +221,8 @@ public class ChatActivity extends AppCompatActivity {
 
         TxtMensaje.setText("");
         listaMensajes.clear();
-        rvMensajes.clearOnChildAttachStateChangeListeners();
-        //ObtenerMensajes();
+        //rvMensajes.clearOnChildAttachStateChangeListeners();
+        ObtenerMensajes();
     }
 
 

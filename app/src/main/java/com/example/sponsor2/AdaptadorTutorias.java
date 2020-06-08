@@ -16,8 +16,6 @@ import java.util.List;
 public class AdaptadorTutorias extends RecyclerView.Adapter<AdaptadorTutorias.TutoriasViewHolder> implements View.OnClickListener{
 
 
-
-
     Context context;
     List<Tutorias> listaTutorias;
     private View.OnClickListener listener;

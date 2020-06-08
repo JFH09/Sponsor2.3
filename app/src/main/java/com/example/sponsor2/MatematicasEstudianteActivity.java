@@ -477,7 +477,8 @@ public class MatematicasEstudianteActivity extends AppCompatActivity {
             BDHorariosTutorias.child("Horario"+nomUsuario).child("listaTutorias").child("D"+FechaTutoria+"H:"+TomarHora).setValue(tutorias);
 
             MensajeVO mensajeUno = new MensajeVO(nomUsuario,"Conectado - "+nomUsuario);
-            BDChats.child("Materias"+nomUsuario).child(indicadorMateria+nomUsuario).child(creadortutoria+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+dia).setValue(mensajeUno);
+            BDChats.child("Materias"+nomUsuario).child(indicadorMateria+nomUsuario)
+                    .child(creadortutoria+nomUsuario).child("Mensajes").child("MensajeDe"+nomUsuario+dia).setValue(mensajeUno);
             startActivity(intencionId);
 
 

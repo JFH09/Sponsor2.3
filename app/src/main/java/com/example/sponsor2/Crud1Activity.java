@@ -402,14 +402,12 @@ public class Crud1Activity extends AppCompatActivity{
 
             String id = BDTutorias.push().getKey();
 
-         //   Intent intencionId = new  Intent(this,Crud1Activity.class);
-          //  intencionId.putExtra("TutoriaPara",nomUsuario);
+
             Tutorias tutorias = new Tutorias(fechaT,horaT,nomUsuario,indicadorMateria);
             BDTutorias.child("Tutorias"+nomUsuario).child(nomUsuario+indicadorMateria).child("D"+fechaT+"H:"+horaT).setValue(tutorias); //Aqui que las subCarpetas sean por dias u horas
-            //.child(dia+hora)
+
 
             BDTutorias.child("ListadoTutorias").child(indicadorMateria).child("D"+fechaT+"H:"+horaT+"Tutor="+nomUsuario).setValue(tutorias);
-         //   startActivity(intencionId);
 
             BDTutorias.child("Tutorias"+nomUsuario).child("ListadoTutorias").child("D"+fechaT+"H:"+horaT).setValue(tutorias);
 
@@ -422,13 +420,13 @@ public class Crud1Activity extends AppCompatActivity{
 
 
 
-        //   progressDialog.setMessage("Realizando registro en linea...");
-        // progressDialog.show();
     }
+
+
 
     public void obtenerTutoriasPorMaterias(){
 
-        //colocar un filtro por materia
+
         Toast.makeText(Crud1Activity.this,indicadorMateria,Toast.LENGTH_SHORT).show();
         listaTutorias.clear();
         databaseReference.child("ListadoTutorias").child(indicadorMateria).addValueEventListener(new ValueEventListener() {

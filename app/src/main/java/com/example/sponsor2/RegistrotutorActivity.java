@@ -88,7 +88,7 @@ public class RegistrotutorActivity<ImagenView> extends AppCompatActivity impleme
         BDFotos = FirebaseDatabase.getInstance().getReference().child("Documentos");
         firebaseAuth = FirebaseAuth.getInstance();
         ReferenciaStorage = FirebaseStorage.getInstance().getReference();
-        ReferenciaStorageArchivo = FirebaseStorage.getInstance().getReference();
+
 
         TextEmail = (EditText) findViewById(R.id.TxtEmail);
         TextPassword = (EditText) findViewById(R.id.TxtPassword);
